@@ -1,3 +1,11 @@
 /vendor
 /node_modules
 .env
+
+*.name
+.idea/encodings.xml
+.idea/workspace.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/SE_Forum.iml
+.idea/scopes/scope_settings.xml

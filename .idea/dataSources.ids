@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - forum@localhost" uuid="bd60be36-7dd0-4df9-ad2f-9e1528eef312">
+    <database-info product="MySQL" version="5.6.16" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="forum"/>
+    <table name="forum_board" schema="" catalog="forum" type="TABLE">
+      <column name="b_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="b_name" sqlType="CHAR" precision="20" scale="0" nullable="true" jdbcType="1"/>
+      <column name="desciption" sqlType="VARCHAR" precision="80" scale="0" nullable="true" jdbcType="12"/>
+      <column name="posts_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="b_id"/>
+      <exported-key name="posts_topic_ibfk_2" table="posts_topic" schema="" catalog="forum" columns="board_id"/>
+    </table>
+    <table name="forum_message" schema="" catalog="forum" type="TABLE">
+      <column name="m_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="sender_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="receiver_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="send_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="m_id"/>
+      <foreign-key name="forum_message_ibfk_1" columns="sender_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="forum_message_ibfk_2" columns="receiver_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="posts_content" schema="" catalog="forum" type="TABLE">
+      <column name="p_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="attachment" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="p_id"/>
+      <foreign-key name="posts_content_ibfk_1" columns="p_id" ref-table="posts_topic" ref-schema="" ref-catalog="forum" ref-columns="p_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="posts_reply" schema="" catalog="forum" type="TABLE">
+      <column name="r_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="p_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="replier_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="replier" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="reply_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <primary-key name="PRIMARY" columns="r_id"/>
+      <foreign-key name="posts_reply_ibfk_1" columns="p_id" ref-table="posts_topic" ref-schema="" ref-catalog="forum" ref-columns="p_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="posts_reply_ibfk_2" columns="replier_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="posts_topic" schema="" catalog="forum" type="TABLE">
+      <column name="p_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="title" sqlType="VARCHAR" precision="60" scale="0" nullable="true" jdbcType="12"/>
+      <column name="author_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="author" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="post_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <column name="board_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="hits" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="reply_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="is_announcement" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="p_id"/>
+      <foreign-key name="posts_topic_ibfk_1" columns="author_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="posts_topic_ibfk_2" columns="board_id" ref-table="forum_board" ref-schema="" ref-catalog="forum" ref-columns="b_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="posts_content_ibfk_1" table="posts_content" schema="" catalog="forum" columns="p_id"/>
+      <exported-key name="posts_reply_ibfk_1" table="posts_reply" schema="" catalog="forum" columns="p_id"/>
+    </table>
+    <table name="user_details" schema="" catalog="forum" type="TABLE">
+      <column name="u_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="photo" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="gender" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1"/>
+      <column name="description" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="phone" sqlType="CHAR" precision="11" scale="0" nullable="true" jdbcType="1"/>
+      <column name="email" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="posts_counts" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <primary-key name="PRIMARY" columns="u_id"/>
+      <foreign-key name="user_details_ibfk_1" columns="u_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="user_simple" schema="" catalog="forum" type="TABLE">
+      <column name="u_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="username" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="passwd" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="role" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="status" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="u_id"/>
+      <exported-key name="forum_message_ibfk_1" table="forum_message" schema="" catalog="forum" columns="sender_id"/>
+      <exported-key name="forum_message_ibfk_2" table="forum_message" schema="" catalog="forum" columns="receiver_id"/>
+      <exported-key name="posts_reply_ibfk_2" table="posts_reply" schema="" catalog="forum" columns="replier_id"/>
+      <exported-key name="posts_topic_ibfk_1" table="posts_topic" schema="" catalog="forum" columns="author_id"/>
+      <exported-key name="user_details_ibfk_1" table="user_details" schema="" catalog="forum" columns="u_id"/>
+    </table>
+  </data-source>
+</component>
