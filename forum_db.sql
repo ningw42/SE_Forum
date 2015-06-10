@@ -7,6 +7,7 @@ create table user_simple(u_id int auto_increment,
                          passwd varchar(20),
                          role tinyint,
                          status tinyint,
+  unique key(username),
   primary key(u_id));
 
 #alter table user_simple add username varchar(20) not null;
@@ -27,6 +28,7 @@ create table forum_board(b_id int auto_increment,
                          b_name char(20),
                          description varchar(80),
                          posts_count int,
+  unique key(b_name),
   primary key(b_id));
 
 #post topic
