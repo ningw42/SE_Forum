@@ -66,16 +66,6 @@
     </div>
 </div>
 </nav>
-<?php
-    // Login page
-	include('connect.php');
-
-	$sql = "SELECT `b_name`, `desc` FROM `user` WHERE `name`='$ID' AND `password`='$password'";
-	$query = mysql_query($sql);
-	$rs = mysql_fetch_array($query);
-
-
-?>
 
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
