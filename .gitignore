@@ -1,6 +1,6 @@
 /vendor
 /node_modules
-/.idea/*
+.idea/*
 .env
 
 *.name
@@ -10,3 +10,9 @@
 .idea/vcs.xml
 .idea/SE_Forum.iml
 .idea/scopes/scope_settings.xml
+.idea/dataSources.xml
+.idea/dataSources.ids
+test.php
+.idea/dataSources.xml
+.phpintel/ed543616b60273e8bbda58d2f9415ed1
+.phpintel/index
