@@ -14,5 +14,5 @@
 .idea/dataSources.ids
 test.php
 .idea/dataSources.xml
-.phpintel/ed543616b60273e8bbda58d2f9415ed1
-.phpintel/index
+.phpintel/*
+.phpintel/*

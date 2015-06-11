@@ -88,38 +88,35 @@
                     <th>操作</th>
                 </tr>
             </thead>
+            <?php
+            /**
+            * Created by PhpStorm.
+            * User: Ning
+            * Date: 6/10/2015
+            * Time: 8:26 PM
+            */
+            include('connect.php');
+            $sql = 'select * from forum_message';
+            $result = mysql_query($sql);?>
             <tbody  id="mesgtable">
-                <!--<tr class="table-hover">-->
-                    <!--<td width="10%">-->
-                        <!--<a href="#">长门有希</a>-->
-                    <!--</td>-->
-                    <!--<td width="60%">-->
-                        <!--<p style="margin-bottom: 0px">我们玩炉石，靠的是技术~</p>-->
-                    <!--</td>-->
-                    <!--<td width="20%">-->
-                        <!--<p style="margin-bottom: 0px">2014/10/20 17:36:26</p>-->
-                    <!--</td>-->
-                    <!--<td width="10%" align="center">-->
-                        <!--<button class="btn btn-danger btn-xs">删除</button>-->
-                        <!--<button class="btn btn-success btn-xs">回复</button>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr class="table-hover">-->
-                    <!--<td width="10%">-->
-                        <!--<a href="#">长门有希</a>-->
-                    <!--</td>-->
-                    <!--<td width="60%">-->
-                        <!--<p style="margin-bottom: 0px">我们玩炉石，靠的是技术~</p>-->
-                    <!--</td>-->
-                    <!--<td width="20%">-->
-                        <!--<p style="margin-bottom: 0px">2014/10/20 17:36:26</p>-->
-                    <!--</td>-->
-                    <!--<td width="10%" align="center">-->
-                        <!--<button class="btn btn-danger btn-xs">删除</button>-->
-                        <!--&lt;!&ndash; <button class="btn btn-success btn-xs">回复</button> &ndash;&gt;-->
-                        <!--<a href="#modal-one" class="btn btn-success btn-xs">回复</a>-->
-                    <!--</td>-->
-                <!--</tr>-->
+                <?php
+                while ($row = mysql_fetch_array($result)) { ?>
+                <tr class="table-hover">
+                    <td width="10%">
+                        <a href="#">长门有希</a>
+                    </td>
+                    <td width="60%">
+                        <p style="margin-bottom: 0px"><?php echo $row['content'] ?></p>
+                    </td>
+                    <td width="20%">
+                        <p style="margin-bottom: 0px"><?php echo $row['send_time'] ?></p>
+                    </td>
+                    <td width="10%" align="center">
+                        <button class="btn btn-danger btn-xs" <?php echo 'value='.$row['m_id'] ?> onclick='deletemesg(this);'>删除</button>
+                        <button class="btn btn-success btn-xs" <?php echo 'value='.$row['sender_id'] ?> onclick='replymesg(this);'>回复</button>
+                    </td>
+                </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
@@ -156,17 +153,12 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function (){
-        $.get('findmessage.php', function (data){
-            console.log(data);
-            var dataset = $.parseJSON(data);
-            $(dataset).each(function (index, item) {
-                console.log(item.send_time);
-            })
-        })
-        $('#mesgtable').append("<tr class=\"table-hover\">    <td width=\"10%\">        <a href=\"#\">长门有希</a>    </td>    <td width=\"60%\">        <p style=\"margin-bottom: 0px\">我们玩炉石，靠的是技术~</p>    </td>    <td width=\"20%\">        <p style=\"margin-bottom: 0px\">2014/10/20 17:36:26</p>    </td>    <td width=\"10%\" align=\"center\">        <button class=\"btn btn-danger btn-xs\">删除</button>        <!-- <button class=\"btn btn-success btn-xs\">回复</button> -->        <a href=\"#modal-one\" class=\"btn btn-success btn-xs\">回复</a>    </td></tr>");
-//        $('h2').appendTo($('#mesgtable'));
-    });
+    function deletemesg (d) {
+        var messageID = d.getAttribute("value");
+    };
+    function replymesg(d) {
+        var senderID = d.getAttribute("value");
+    }
 </script>
 </body>
 </html>
