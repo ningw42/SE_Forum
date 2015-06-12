@@ -10,14 +10,16 @@
     <table name="forum_board" schema="" catalog="forum" type="TABLE">
       <column name="b_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="b_name" sqlType="CHAR" precision="20" scale="0" nullable="true" jdbcType="1"/>
-      <column name="desciption" sqlType="VARCHAR" precision="80" scale="0" nullable="true" jdbcType="12"/>
-      <column name="posts_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="description" sqlType="VARCHAR" precision="80" scale="0" nullable="true" jdbcType="12"/>
+      <column name="posts_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
       <primary-key name="PRIMARY" columns="b_id"/>
       <exported-key name="posts_topic_ibfk_2" table="posts_topic" schema="" catalog="forum" columns="board_id"/>
+      <index name="b_name" unique="true" columns="b_name"/>
     </table>
     <table name="forum_message" schema="" catalog="forum" type="TABLE">
       <column name="m_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="sender_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="sender" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
       <column name="receiver_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="send_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
       <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
