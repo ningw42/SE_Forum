@@ -70,14 +70,24 @@
 
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
-        <ol class="breadcrumb breadcrumb-post">
-            <li class="active">所在板块</li>
-        </ol>
+        <ul class="breadcrumb breadcrumb-post">
+            <?php
+            $bid = $_GET['b_id'];
+             require("connect.php");
+            $sql = "select b_name from forum_board where b_id = $bid";
+            $query = mysql_query($sql)
+                or die("Error!");
+            $row = mysql_fetch_array($query);   //num of posts
+            $b_name = $row[0];
+            ?>
+            <li class="active">所在板块:<?php echo $b_name?></li>
+            <li><a class = "btn btn-success" href = "post.php?b_id=<?php echo $bid ?>">发布新主题</a></li>
+        </ul>
     </div>
     <div class="panel-body" style="padding-bottom: 0px">
         <ul class="list-group">
             <?php
-            require("connect.php");
+
             $topics_one_page = 10;   //display at most 20 posts in one page
             $page_navigation = 5;
 
@@ -89,7 +99,7 @@
             }
 
 
-            $bid = $_GET['b_id'];
+
            // echo $bid;
             $sql = "select count(*) from posts_topic where board_id = $bid";
             $query = mysql_query($sql)

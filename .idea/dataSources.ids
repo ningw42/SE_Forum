@@ -50,8 +50,8 @@
       <column name="author" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
       <column name="post_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
       <column name="board_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="hits" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="reply_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="hits" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <column name="reply_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
       <column name="is_announcement" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="p_id"/>
       <foreign-key name="posts_topic_ibfk_1" columns="author_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
