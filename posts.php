@@ -78,17 +78,15 @@
         <ul class="list-group">
             <?php
             require("connect.php");
-            $topics_one_page = 20;   //display at most 20 posts in one page
+            $topics_one_page = 10;   //display at most 20 posts in one page
             $page_navigation = 5;
 
             if(!isset($_GET['current_page'])){
-                $current_page = 0;
+                $current_page = 1;
             }
             else{
                 $current_page = $_GET['current_page'];
             }
-
-
 
 
             $bid = $_GET['b_id'];
@@ -99,9 +97,9 @@
             $row = mysql_fetch_array($query);   //num of posts
             $num_row = $row[0];
             //echo $num_row;
-            $num_page = $num_row / $topics_one_page + 1;
+            $num_page = floor($num_row / $topics_one_page) + 1;
 
-            $start = $current_page*$topics_one_page;
+            $start = ($current_page-1)*$topics_one_page;
             $sql = "select * from posts_topic where board_id = $bid limit $start,$topics_one_page ";
             $query = mysql_query($sql)
                 or die("Error!");
@@ -125,7 +123,7 @@
     <div class="paginator-wrapper">
         <ul class="pagination paginator">
             <?php
-            if($current_page/$page_navigation==0){//disable class previous
+            if(floor(($current_page-1)/$page_navigation)==0){//disable class previous
                 ?>
                 <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
             <?php
@@ -135,8 +133,10 @@
                 <li><a href="?b_id=<?php echo $bid?>&current_page=<?php echo $current_page-1?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
             <?php
             }
+            $navigation_start = floor(($current_page-1)/$page_navigation)*$page_navigation+1;
 
-            for($i=$current_page/$page_navigation*$page_navigation+1;$i<($current_page/$page_navigation+1)*$page_navigation+1;$i++){
+            $navigation_end = min((floor(($current_page-1)/$page_navigation)+1)*($page_navigation)+1,$num_page+1);
+            for($i=$navigation_start;$i<$navigation_end;$i++){
                 if($i==$current_page){
                     ?>
                     <li class="active"><a href="?b_id=<?php echo $bid?>&current_page=<?php echo $i?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
@@ -148,9 +148,9 @@
                 <?php
                 }
             }
-            if($current_page/$page_navigation==$num_page-1){
+            if(floor(($current_page-1)/$page_navigation)==floor(($num_page-1)/$page_navigation)){
                 ?>
-                <li class=disabled"> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
+                <li class="disabled"> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
             <?php
             }
             else{
@@ -162,6 +162,7 @@
 
 
         </ul>
+        <?php echo "共 ".$num_page . " 页" ?>
     </div>
 </nav>
 </body>
