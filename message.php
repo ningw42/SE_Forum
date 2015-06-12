@@ -16,14 +16,14 @@
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
     <!-- Popup -->
-    <!-- <link href='css/popbox.css' rel='stylesheet'> -->
+<!--    <link href='css/popbox.css' rel='stylesheet'>-->
 
     <!-- jQuery -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
     <!-- Popup -->
-    <!-- // <script src="js/popbox.min.js"></script> -->
+<!--    <script src="js/popbox.min.js"></script>-->
 </head>
 
 <body>
@@ -103,7 +103,7 @@
                 while ($row = mysql_fetch_array($result)) { ?>
                 <tr class="table-hover">
                     <td width="10%">
-                        <a href="#">长门有希</a>
+                        <a href="#"> <?php echo $row['sender_name'] ?> </a>
                     </td>
                     <td width="60%">
                         <p style="margin-bottom: 0px"><?php echo $row['content'] ?></p>
@@ -112,8 +112,8 @@
                         <p style="margin-bottom: 0px"><?php echo $row['send_time'] ?></p>
                     </td>
                     <td width="10%" align="center">
-                        <button class="btn btn-danger btn-xs" <?php echo 'value='.$row['m_id'] ?> onclick='deletemesg(this);'>删除</button>
-                        <button class="btn btn-success btn-xs" <?php echo 'value='.$row['sender_id'] ?> onclick='replymesg(this);'>回复</button>
+                        <button class="btn btn-danger btn-xs" <?php echo 'data-m_id='.$row['m_id'] ?> data-toggle="modal" data-target="#confirmModal">删除</button>
+                        <button class="btn btn-success btn-xs" <?php echo 'data-sender_name='.$row['sender_name'];?> data-toggle="modal" data-target="#replyModal" <?php echo 'data-sender_id='.$row['sender_id'];?> >回复</button>
                     </td>
                 </tr>
                 <?php } ?>
@@ -135,30 +135,104 @@
     </div>
 </nav>
 
-<a href="#" class="modal" id="modal-one" aria-hidden="true"></a>
-<div class="modal-dialog">
-    <div class="modal-header">
-        <span>发送给XXX</span>
-        <a href="#" class="btn-close" style="float: right" aria-hidden="true">×</a>
-    </div>
-    <div class="modal-body">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="主题">
-            <textarea class="form-control input-textarea" rows="5" placeholder="站短内容"></textarea>
+<!-- replyModal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group" style="width: 100%;">
+                    <textarea id="mesgarea" class="form-control" rows="5" placeholder="站短内容"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="sendbutton" data-toggle="modal" data-target="#resultModal" type="button" class="btn btn-success" >发送站短</button>
+            </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-success">发送</a>
+</div>
+
+<!-- resultModal -->
+<div class="modal fade bs-example-modal-sm" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">发送成功</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- confirmModal -->
+<div class="modal fade bs-example-modal-sm" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">确认删除？</h4>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm" type="button" class="btn btn-danger" onclick='deletemesg(this);'>确定</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
     function deletemesg (d) {
-        var messageID = d.getAttribute("value");
+        var messageID = d.getAttribute("m_id");
+        $.get('deletemessage.php', {m_id : messageID}, function (response) {
+            var confirmModal = $('#confirmModal');
+            setTimeout(function(){
+                confirmModal.modal('hide');
+            }, 100);
+        })
     };
-    function replymesg(d) {
-        var senderID = d.getAttribute("value");
-    }
+    var replyModal = $('#replyModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('sender_name') // Extract info from data-* attributes
+        var recipientID = button.data('sender_id') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('发送给' + recipient)
+        modal.find('.btn-success').attr({'userid' : recipientID})
+    })
+    var confirmModal = $('#confirmModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var mid = button.data('m_id') // Extract info from data-* attributes
+        var modal = $(this)
+        modal.find('.btn-danger').attr({'m_id' : mid})
+    })
+    $('#sendbutton').on('click', function () {
+        console.log(this)
+        var id = $(this).attr('userid')
+        var content = $("#mesgarea").val()
+        // TO-DO user_id to be sent
+        $.get('replymessage.php', {receiver_id : id, sender_id : "fucker", mesg_content: content}, function (response) {
+            console.log(response)
+        })
+    })
+    $(function(){
+        $('#resultModal').on('shown.bs.modal', function(){
+            var resultModal = $(this);
+            clearTimeout(resultModal.data('5000'));
+            resultModal.data('5000', setTimeout(function(){
+                resultModal.modal('hide');
+            }, 1000));
+            // 收起result Modal
+
+            var replyModal = $('#replyModal');
+            replyModal.data('hideInterval', setTimeout(function(){
+                replyModal.modal('hide');
+            }, 50));
+            // 收起input Modal
+        });
+    });
 </script>
 </body>
 </html>
