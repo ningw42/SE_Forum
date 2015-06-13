@@ -8,4 +8,8 @@
 include("connect.php");
 $sql = "delete from forum_message WHERE m_id = ".$_GET['m_id'];
 $result = mysql_query($sql);
-echo $result;
+if (!$result) {
+	echo "failure";
+} else {
+	echo "success";
+}

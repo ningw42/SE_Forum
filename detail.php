@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<?php
+    Session_start();
+    header("Content-type: text/html; charset=utf-8");
+    $postid = $_GET['id'];
+    $userid = $_SESSION['u_id'];
+    $username = $_SESSION['username'];
+    include("connect.php");
+?>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -20,6 +28,7 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.twbsPagination.min.js"></script>
 </head>
 
 <body>
@@ -39,7 +48,7 @@
                 </div>
             </li>
             <li class="dropdown">
-                <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <?php echo $_SESSION['username']; ?>
                     <!-- <span class="caret"></span> -->
                 </a>
                 <ul class="dropdown-menu" role="menu">
@@ -70,7 +79,14 @@
 
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
-        主题
+        <?php
+        // post title
+        $sql = "select * from posts_topic WHERE p_id=".$postid;
+        $result = mysql_query($sql);
+        $row = mysql_fetch_array($result);
+
+        echo $row['title'];
+        ?>
         <div style="float: right">
             <button class="btn btn-success btn-xs" type="button" >回复主题</button>
         </div>
@@ -81,41 +97,55 @@
                 <tr class="table-hover">
                     <td width="15%" align="center">
                         <div style="margin-bottom: 5px">
-                            <span class="label label-default">用户名</span>
+                            <span class="label label-default"><?php echo $row['author'] ?></span>
                         </div>
                         <img src="images/Akari.png" class="img-thumbnail" width="100%">
                         <div style="margin-bottom: 5px">
-                            <span class="label label-default" id="timestamp">2015/6/7 20:20:20</span>
+                            <span class="label label-default" id="timestamp"><?php echo $row['post_time'] ?></span>
                         </div>
                         <button class="btn btn-success btn-xs" type="button">发送站短</button>
                     </td>
                     <td>
                         <div class="panel panel-default panel-content">
                             <div class="panel-body">
-                                帖子内容
+                                <?php
+                                $sql = "select * from posts_content WHERE p_id=".$postid;
+                                $result = mysql_query($sql);
+                                $row = mysql_fetch_array($result);
+                                $attachment = $row['attachment'];
+                                $postcontent = $row['content'];
+                                echo $postcontent;
+                                ?>
                             </div>
                         </div>
                     </td>
                 </tr>
+                <?php
+                $sql = "select * from posts_reply WHERE p_id=".$postid." order by r_id";
+                $result = mysql_query($sql);
+                // echo $sql;
+                while ($row = mysql_fetch_array($result)) {
+                ?>
                 <tr class="table-hover">
                     <td width="15%" align="center">
                         <div style="margin-bottom: 5px">
-                            <span class="label label-default">用户名</span>
+                            <span class="label label-default"><?php echo $row['replier'] ?></span>
                         </div>
                         <img src="images/Akari.png" class="img-thumbnail" width="100%">
                         <div style="margin-bottom: 5px">
-                            <span class="label label-default" id="timestamp">2015/6/7 20:20:20</span>
+                            <span class="label label-default" id="timestamp"><?php echo $row['reply_time'] ?></span>
                         </div>
                         <button class="btn btn-success btn-xs" type="button">发送站短</button>
                     </td>
                     <td>
                         <div class="panel panel-default panel-content">
                             <div class="panel-body">
-                                帖子内容
+                                <?php echo $row['content'] ?>
                             </div>
                         </div>
                     </td>
                 </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
@@ -145,11 +175,29 @@
         <form action="#">
             <div class="input-group">
                 <!-- <span class="input-group-addon" id="title">主题</span> -->
-                <textarea class="form-control" rows="5" placeholder="回复内容"></textarea>
-                <span class="input-group-addon btn btn-success">回复</span>
+                <textarea id="replyonpage" class="form-control" rows="5" placeholder="回复内容"></textarea>
+                <span id="sendreply" class="input-group-addon btn btn-success">回复</span>
             </div>
         </form>
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    $('#sendreply').on('click', function () {
+        var reply_content = $('#replyonpage').val();
+        console.log(reply_content.length);
+        if (reply_content.length == 0) {
+            // TO-DO bootstrap warning
+            alert("empty");
+            return;
+        }
+        var p_id = <?php echo $postid ?>;
+        var replier_id = <?php echo $userid ?>;
+        var replier = "<?php echo $username ?>";
+        $.get('replypost.php', {p_id : p_id, replier_id : replier_id, replier : replier, content : reply_content}, function (response) {
+            console.log(response)
+            location.reload();
+        })
+    })
+</script>
 </html>
