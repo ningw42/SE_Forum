@@ -6,6 +6,7 @@
  * Time: 7:30
  */
 require ('connect.php');
+session_start();
 if(isset($_POST['login-submit'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -26,6 +27,7 @@ if(isset($_POST['login-submit'])){
         $row = mysql_fetch_array($query);
         $_SESSION['u_id'] = $row['u_id'];
         $_SESSION['username'] = $row['username'];
+        //echo $_SESSION['username'];
         header("Location:index.php");
     }
 }
