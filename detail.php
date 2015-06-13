@@ -3,8 +3,10 @@
     Session_start();
     header("Content-type: text/html; charset=utf-8");
     $postid = $_GET['id'];
+    $pageby10 = ($_GET['page'] - 1) * 10;
     $userid = $_SESSION['u_id'];
     $username = $_SESSION['username'];
+    $post_count = 0;
     include("connect.php");
 ?>
 <html lang="en">
@@ -94,6 +96,9 @@
     <div class="panel-body">
         <table class="table table-striped table-hover table-content">
             <tbody>
+                <?php if ($pageby10 == 0) {
+                    $post_count++;
+                ?>
                 <tr class="table-hover">
                     <td width="15%" align="center">
                         <div style="margin-bottom: 5px">
@@ -120,11 +125,11 @@
                         </div>
                     </td>
                 </tr>
-                <?php
-                $sql = "select * from posts_reply WHERE p_id=".$postid." order by r_id";
+                <?php }
+                $sql = "select * from posts_reply WHERE p_id=".$postid." order by r_id"." LIMIT ".$pageby10.", 10";
                 $result = mysql_query($sql);
                 // echo $sql;
-                while ($row = mysql_fetch_array($result)) {
+                while ($row = mysql_fetch_array($result) and $post_count++ < 10) {
                 ?>
                 <tr class="table-hover">
                     <td width="15%" align="center">
@@ -150,21 +155,10 @@
         </table>
     </div>
 </div>
-
-<nav>
-    <div class="paginator-wrapper">
-    <ul class="pagination paginator">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
+<div class="text-center">
+    <ul class="pagination">
     </ul>
-    </div>
-</nav>
-
+</div>
 <div class="panel panel-default" style="width: 80%; margin: 0px auto">
     <div class="panel-heading">
         <ol class="breadcrumb breadcrumb-post">
@@ -182,6 +176,11 @@
     </div>
 </div>
 </body>
+<?php
+$sql = "select count(*) from posts_reply WHERE p_id=".$postid." order by r_id";
+$result = mysql_query($sql);
+$totalreplycount = mysql_fetch_array($result)[0];
+?>
 <script type="text/javascript">
     $('#sendreply').on('click', function () {
         var reply_content = $('#replyonpage').val();
@@ -198,6 +197,15 @@
             console.log(response)
             location.reload();
         })
-    })
+    });
+
+    $('.pagination').twbsPagination({
+        totalPages: <?php echo ceil($totalreplycount / 10.0) ?>,
+        visiblePages: 10,
+        href : '?id=' + <?php echo $postid ?> + '&page={{number}}'
+//        onPageClick: function (event, page) {
+//            $('#page-content').text('Page ' + page);
+//        }
+    });
 </script>
 </html>

@@ -28,17 +28,18 @@
 
 
 
-.paginator-wrapper {
-	width: 250px;
+/*.paginator-wrapper {
+	width: 100%;
+	text-align: center;
 	margin:0px auto;
-}
+}*/
 
-.paginator{
+/*.paginator{
 	width: 100%;
 	margin: 0px auto;
 	margin-top: 20px;
 	margin-bottom: 20px;
-}
+}*/
 
 .breadcrumb-post{
 	margin: 0px;
