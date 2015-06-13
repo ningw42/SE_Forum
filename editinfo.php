@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<?php
+Session_start();
+header("Content-type: text/html; charset=utf-8");
+$userid = $_SESSION['u_id'];
+$username = $_SESSION['username'];
+include("connect.php");
+?>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,7 +50,7 @@
                 </div>
             </li>
             <li class="dropdown">
-                <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <?php echo $username; ?>
                     <!-- <span class="caret"></span> -->
                 </a>
                 <ul class="dropdown-menu" role="menu">
