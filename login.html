@@ -31,6 +31,27 @@
                   return false;
               }
           }
+          function checkRegister(){
+              var username = document.getElementById("register-form").username.value;
+              var password = document.getElementById("register-form").password.value;
+              var confirm_password = document.getElementById("register-form").confirm_password.value;
+              var email = document.getElementById(("register-form")).email.value;
+
+              if(username && password && password && confirm_password){
+                  if(password!=confirm_password){
+                      alert("两次输入密码不同！");
+                      return false;
+                  }
+                  else {
+                      return true;
+                  }
+
+              }
+              else{
+                  alert("注册信息不完全，请重新填写！");
+                  return false;
+              }
+          }
       </script>
   </head>
 
@@ -95,7 +116,7 @@
                                 </form>
                                 <!-- end of login form -->
                                 <!-- begin of register form -->
-                                <form id="register-form" action="register.php" method="post" role="form" style="display: none;">
+                                <form id="register-form" action="register.php" onsubmit="return checkRegister()" method="post" role="form" style="display: none;">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon" id="username-addon-reg">
@@ -125,7 +146,7 @@
                                             <span class="input-group-addon" id="password-confirm-addon-reg">
                                                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                                             </span>
-                                            <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control"  placeholder="Confirm Password">
+                                            <input type="password" name="confirm_password" id="confirm_password" tabindex="2" class="form-control"  placeholder="Confirm Password">
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -2,10 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: think
- * Date: 2015/6/12
- * Time: 23:59
+ * Date: 2015/6/13
+ * Time: 7:30
  */
-session_start();
 require ('connect.php');
 if(isset($_POST['login-submit'])){
     $username = $_POST['username'];
@@ -21,7 +20,7 @@ if(isset($_POST['login-submit'])){
             alert("用户名或密码错误！");
             location.href = "login.html";
         </script>
-        <?php
+    <?php
     }
     else{//register u_id and username into session
         $row = mysql_fetch_array($query);

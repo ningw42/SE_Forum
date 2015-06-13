@@ -66,8 +66,8 @@
       <column name="photo" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="gender" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1"/>
       <column name="description" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
-      <column name="phone" sqlType="CHAR" precision="11" scale="0" nullable="true" jdbcType="1"/>
-      <column name="email" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="phone" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="25" scale="0" nullable="true" jdbcType="12"/>
       <column name="posts_counts" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
       <primary-key name="PRIMARY" columns="u_id"/>
       <foreign-key name="user_details_ibfk_1" columns="u_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
@@ -84,6 +84,7 @@
       <exported-key name="posts_reply_ibfk_2" table="posts_reply" schema="" catalog="forum" columns="replier_id"/>
       <exported-key name="posts_topic_ibfk_1" table="posts_topic" schema="" catalog="forum" columns="author_id"/>
       <exported-key name="user_details_ibfk_1" table="user_details" schema="" catalog="forum" columns="u_id"/>
+      <index name="username" unique="true" columns="username"/>
     </table>
   </data-source>
 </component>
