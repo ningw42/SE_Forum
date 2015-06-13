@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php Session_start(); ?>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,7 +44,7 @@
                 </div>
             </li>
             <li class="dropdown">
-                <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $_SESSION['username']; ?>
                     <!-- <span class="caret"></span> -->
                 </a>
                 <ul class="dropdown-menu" role="menu">
@@ -96,24 +97,36 @@
             * Time: 8:26 PM
             */
             include('connect.php');
-            $sql = 'select * from forum_message';
+            $tz = new DateTimeZone('Asia/Shanghai');
+            $sql = 'select * from forum_message where receiver_id = '.$_SESSION['u_id'].' order by send_time desc';
             $result = mysql_query($sql);?>
             <tbody  id="mesgtable">
                 <?php
                 while ($row = mysql_fetch_array($result)) { ?>
                 <tr class="table-hover">
                     <td width="10%">
-                        <a href="#"> <?php echo $row['sender_name'] ?> </a>
+                        <a href="#"> <?php echo $row['sender'] ?> </a>
                     </td>
                     <td width="60%">
                         <p style="margin-bottom: 0px"><?php echo $row['content'] ?></p>
                     </td>
                     <td width="20%">
-                        <p style="margin-bottom: 0px"><?php echo $row['send_time'] ?></p>
+                        <p style="margin-bottom: 0px">
+                            <?php
+                            $utc_date = DateTime::createFromFormat(
+                                'Y-m-d H:i:s',
+                                $row['send_time'],
+                                new DateTimeZone('UTC')
+                            );
+                            $local_date = $utc_date;
+                            $local_date->setTimezone($tz);
+                            echo $local_date->format('Y-m-d H:i:s');
+                            ?>
+                        </p>
                     </td>
                     <td width="10%" align="center">
                         <button class="btn btn-danger btn-xs" <?php echo 'data-m_id='.$row['m_id'] ?> data-toggle="modal" data-target="#confirmModal">删除</button>
-                        <button class="btn btn-success btn-xs" <?php echo 'data-sender_name='.$row['sender_name'];?> data-toggle="modal" data-target="#replyModal" <?php echo 'data-sender_id='.$row['sender_id'];?> >回复</button>
+                        <button class="btn btn-success btn-xs" <?php echo 'data-sender='.$row['sender'];?>  <?php echo ' data-loginuserid='.$_SESSION['u_id'];?> data-toggle="modal" data-target="#replyModal" <?php echo 'data-sender_id='.$row['sender_id'];?> >回复</button>
                     </td>
                 </tr>
                 <?php } ?>
@@ -194,13 +207,15 @@
     };
     var replyModal = $('#replyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('sender_name') // Extract info from data-* attributes
+        var recipient = button.data('sender') // Extract info from data-* attributes
         var recipientID = button.data('sender_id') // Extract info from data-* attributes
+        var loginUser = button.data('loginuserid') // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         modal.find('.modal-title').text('发送给' + recipient)
         modal.find('.btn-success').attr({'userid' : recipientID})
+        modal.find('.btn-success').attr({'loginid' : loginUser})
     })
     var confirmModal = $('#confirmModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -209,12 +224,15 @@
         modal.find('.btn-danger').attr({'m_id' : mid})
     })
     $('#sendbutton').on('click', function () {
-        console.log(this)
+//        console.log(this)
         var id = $(this).attr('userid')
+        var login_id = $(this).attr('loginid')
         var content = $("#mesgarea").val()
-        // TO-DO user_id to be sent
-        $.get('replymessage.php', {receiver_id : id, sender_id : "fucker", mesg_content: content}, function (response) {
-            console.log(response)
+        // TO-DO empty content
+        $.get('replymessage.php', {receiver_id : id, sender_id : login_id, mesg_content: content}, function (response) {
+            if (response == "success") {
+                alert("fuck")
+            }
         })
     })
     $(function(){

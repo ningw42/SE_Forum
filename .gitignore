@@ -4,15 +4,6 @@
 .env
 
 *.name
-.idea/encodings.xml
-.idea/workspace.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/SE_Forum.iml
-.idea/scopes/scope_settings.xml
-.idea/dataSources.xml
-.idea/dataSources.ids
 test.php
-.idea/dataSources.xml
 .phpintel/*
 .phpintel/*
