@@ -27,6 +27,9 @@
 </head>
 
 <body>
+<?php
+require('checkvalid.php');
+?>
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="nav-wrapper">
     <div class="container-fluid">
@@ -50,7 +53,7 @@
                     <li><a href="#">编辑信息</a></li>
                     <li><a href="#">短消息 <span class="badge">42</span></a></li>
                     <li class="divider"></li>
-                    <li><a href="#">注销</a></li>
+                   <li><a href="logout.php">注销</a></li>
                 </ul>
             </li>
         </ul>
