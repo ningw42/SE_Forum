@@ -127,7 +127,7 @@ $bid = $_GET['b_id'];
                 //fetch all the posts in the board
                 ?>
                 <li class="list-group-item">
-                    <a href="addHit.php?id=<?php echo $row['p_id']?>"><?php echo $row['title']?></a>
+                    <a href="addhit.php?id=<?php echo $row['p_id']?>"><?php echo $row['title']?></a>
                     <span class="badge"><?php echo $row['reply_count']?> reply/<?php echo $row['hits']?>hit(s)</span>
                     <span class="badge"><?php $row['post_time']?></span>
                     <span class="badge"><?php $row['author']?></span>
