@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-<<<<<<< HEAD
-=======
-    <file url="file://$PROJECT_DIR$/basic_data.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/boardmanagement.php" dialect="MySQL" />
->>>>>>> origin/master
-    <file url="file://$PROJECT_DIR$/deleteboard.php" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/forum_board.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/forum_db.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/index.php" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/posts.php" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/replymessage.php" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$" dialect="MySQL" />
   </component>
 </project>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+    require('checkvalid.php');
     Session_start();
     header("Content-type: text/html; charset=utf-8");
     $postid = $_GET['id'];

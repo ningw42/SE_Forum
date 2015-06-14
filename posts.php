@@ -20,11 +20,16 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.twbsPagination.min.js"></script>
+
 </head>
 
 <body>
 <?php
 require('checkvalid.php');
+session_start();
+$username = $_SESSION['username'];
+$u_id = $_SESSION['u_id'];
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
@@ -42,7 +47,7 @@ require('checkvalid.php');
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $username?>
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
@@ -121,7 +126,7 @@ require('checkvalid.php');
                 //fetch all the posts in the board
                 ?>
                 <li class="list-group-item">
-                    <a href="detail.php?pid =<?php echo $row['pid'] ?>  "><?php echo $row['title']?></a>
+                    <a href="detail.php?id=<?php echo $row['p_id']?>&page=<?php echo $current_page ?>"><?php echo $row['title']?></a>
                     <span class="badge"><?php echo $row['reply_count']?> reply/<?php echo $row['hits']?>hit(s)</span>
                     <span class="badge"><?php $row['post_time']?></span>
                     <span class="badge"><?php $row['author']?></span>
@@ -133,52 +138,20 @@ require('checkvalid.php');
         </ul>
     </div>
 </div>
-<nav>
-    <div class="paginator-wrapper">
-        <ul class="pagination paginator">
-            <?php
-            if(floor(($current_page-1)/$page_navigation)==0){//disable class previous
-                ?>
-                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-            <?php
-            }
-            else{
-                ?>
-                <li><a href="?b_id=<?php echo $bid?>&current_page=<?php echo $current_page-1?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-            <?php
-            }
-            $navigation_start = floor(($current_page-1)/$page_navigation)*$page_navigation+1;
-
-            $navigation_end = min((floor(($current_page-1)/$page_navigation)+1)*($page_navigation)+1,$num_page+1);
-            for($i=$navigation_start;$i<$navigation_end;$i++){
-                if($i==$current_page){
-                    ?>
-                    <li class="active"><a href="?b_id=<?php echo $bid?>&current_page=<?php echo $i?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
-                <?php
-                }
-                else{
-                    ?>
-                    <li><a href="?b_id=<?php echo $bid?>&current_page=<?php echo $i?>"><?php echo $i?></a></li>
-                <?php
-                }
-            }
-            if(floor(($current_page-1)/$page_navigation)==floor(($num_page-1)/$page_navigation)){
-                ?>
-                <li class="disabled"> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
-            <?php
-            }
-            else{
-                ?>
-                <li> <a href="?b_id=<?php echo $bid?>&current_page=<?php echo $current_page+1?>" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
-            <?php
-            }
-            ?>
-
-
-        </ul>
-        <?php echo "共 ".$num_page . " 页" ?>
-    </div>
-</nav>
+<div class="text-center">
+    <ul class="pagination">
+    </ul>
+</div>
+<script>
+    $('.pagination').twbsPagination({
+        totalPages: <?php echo $num_page ?>,
+        visiblePages: 10,
+        href : '?b_id=' + <?php echo $bid ?> + '&current_page={{number}}'
+//        onPageClick: function (event, page) {
+//            $('#page-content').text('Page ' + page);
+//        }
+    });
+</script>
 </body>
 </html>
 
