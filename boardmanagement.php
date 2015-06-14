@@ -20,12 +20,22 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.twbsPagination.min.js"></script>
 </head>
 
 <body>
 <?php
 require('checkvalid.php');
+if($_SESSION['role'] != 0){
+    ?>
+    <script>
+    alert("权限不足！");
+    location.href = "index.php";
+    </script>
+<?php
+}else{
 ?>
+
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
         <div class="container-fluid">
@@ -42,14 +52,15 @@ require('checkvalid.php');
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-expanded="false">用户名
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">编辑信息</a></li>
                         <li><a href="#">短消息 <span class="badge">42</span></a></li>
                         <li class="divider"></li>
-                       <li><a href="logout.php">注销</a></li>
+                        <li><a href="logout.php">注销</a></li>
                     </ul>
                 </li>
             </ul>
@@ -99,14 +110,24 @@ require('checkvalid.php');
 
             include('connect.php');
 
-            $sql = "SELECT `b_id`, `b_name`, `description`, `posts_count` FROM `forum_board`;";
+            $sql = "SELECT count(*) FROM `forum_board`;";
+            $query = mysql_query($sql);
+            $board_number = mysql_fetch_array($query)[0];
+
+            if(!isset($_GET['page'])){
+                $pagestart = 0;
+            }else {
+                $pagestart = ($_GET['page'] - 1) * 10;
+            }
+            $sql = "SELECT `b_id`, `b_name`, `description`, `posts_count` FROM `forum_board` order by `b_id`"." LIMIT ".$pagestart.", 10;";
             $query = mysql_query($sql);
             while ($row = mysql_fetch_array($query, MYSQL_BOTH)) {
                 ?>
 
                 <tr class="table-hover">
                     <td width="10%">
-                        <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_id']; $b_id = $row['b_id'] ?></a>
+                        <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_id'];
+                            $b_id = $row['b_id'] ?></a>
                     </td>
                     <td width="15%">
                         <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_name'] ?></a>
@@ -118,11 +139,15 @@ require('checkvalid.php');
                         <p style="margin-bottom: 0px"><?php echo $row['posts_count'] ?></p>
                     </td>
                     <td width="10%" align="center">
-                        <button class="btn btn-danger btn-xs" onclick="javascript:if(confirm('确定删除该板块?'))location='deleteboard.php?del=<?php echo $row['b_id'] ?>'">删除板块</button>
+                        <button class="btn btn-danger btn-xs"
+                                onclick="javascript:if(confirm('确定删除该板块?'))location='deleteboard.php?del=<?php echo $row['b_id'] ?>'">
+                            删除板块
+                        </button>
                     </td>
                 </tr>
             <?php
             }
+            if($b_id == $board_number){
             ?>
 
             <script type="text/javascript">
@@ -167,22 +192,29 @@ require('checkvalid.php');
                 </td>
             </tr>
             </form>
+            <?php
+            }
+            ?>
             </tbody>
         </table>
     </div>
 </div>
-<nav>
-    <div class="paginator-wrapper">
-        <ul class="pagination paginator">
-            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
-        </ul>
-    </div>
-</nav>
+<div class="text-center">
+    <ul class="pagination">
+    </ul>
+</div>
+<script type="text/javascript">
+    $('.pagination').twbsPagination({
+        totalPages: <?php echo ceil($board_number / 10.0) ?>,
+        visiblePages: 5,
+        href : '?page={{number}}'
+//        onPageClick: function (event, page) {
+//            $('#page-content').text('Page ' + page);
+//        }
+    });
+</script>
 </body>
 </html>
+<?php
+}
+?>
