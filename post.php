@@ -42,6 +42,10 @@
 <body>
 <?php
 require('checkvalid.php');
+session_start();
+$username = $_SESSION['username'];
+$u_id = $_SESSION['u_id'];
+$bid = $_GET['b_id'];
 ?>
 
 
@@ -61,7 +65,7 @@ require('checkvalid.php');
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $username?>
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
