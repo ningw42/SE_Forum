@@ -63,7 +63,7 @@ $status = $_SESSION['status'];
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="divider-vertical"></li>
-                <li><a href='#'>浏览</a></li>
+                <li><a href='posts.php?b_id=<?php echo $bid ?>'>浏览</a></li>
                 <li class="divider-vertical"></li>
                 <li><a href="#">热门帖子</a></li>
                 <li class="divider-vertical"></li>
@@ -112,7 +112,18 @@ $status = $_SESSION['status'];
         </ul>
     </div>
     <div class="panel-body" style="padding-bottom: 0px">
-        <ul class="list-group">
+
+        <!--<ul class="list-group">-->
+        <table class="table table-striped table-hover table-content">
+            <thead>
+            <tr>
+                <th align="center">主题</th>
+                <th>作者</th>
+                <th>发帖时间</th>
+                <th>点击</th>
+            </tr>
+            </thead>
+            <tbody>
             <?php
 
             $topics_one_page = 10;   //display at most 20 posts in one page
@@ -143,17 +154,44 @@ $status = $_SESSION['status'];
             while($row = mysql_fetch_array($query,MYSQL_BOTH)) {
                 //fetch all the posts in the board
                 ?>
-                <li class="list-group-item">
-                    <a href="detail.php?id=<?php echo $row['p_id']?>&page=<?php echo $current_page ?>"><?php echo $row['title']?></a>
-                    <span class="badge"><?php echo $row['reply_count']?> reply/<?php echo $row['hits']?>hit(s)</span>
-                    <span class="badge"><?php $row['post_time']?></span>
-                    <span class="badge"><?php $row['author']?></span>
-                </li>
+                <tr class = "table-hover">
+                    <td width="50%">
+                        <a href = "detail.php?id=<?php echo $row['p_id'] ?>"><?php echo $row['title']?></a>
+                    </td>
+                    <td width="10%">
+                        <span class="badge"><?php echo $row['author']?></span>
+                    </td>
+                    <td width="20%">
+                        <span class="badge"><?php echo $row['post_time']?></span>
+                    </td>
+                    <td width="10">
+                        <span class="badge"><?php echo $row['reply_count']?> reply</span>
+                    </td>
+                    <?php
+                    if($role==0){//管理员 add delete button
+                        ?>
+                        <td width="10">
+                            <button class = "btn btn-danger btn-xs"
+                                    onclick="if(confirm('确定删除这条公告?'))location='?announce=1&deletepost.php?b_id=<?php echo $bid?>&p_id=<?php echo $row['p_id']?>'">
+                                删除
+                            </button>
+                        </td>
+                    <?php
+
+                    }
+                    ?>
+                </tr>
+
+
+
             <?php
             }
+
             mysql_close();
             ?>
-        </ul>
+        <!--</ul>-->
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="text-center">

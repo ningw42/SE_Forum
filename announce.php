@@ -78,7 +78,7 @@ $bid = $_GET['b_id'];
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="divider-vertical"></li>
-                <li><a href='#'>浏览</a></li>
+                <li><a href='posts.php?b_id=<?php echo $bid ?>'>浏览</a></li>
                 <li class="divider-vertical"></li>
                 <li><a href="#">热门帖子</a></li>
                 <li class="divider-vertical"></li>
