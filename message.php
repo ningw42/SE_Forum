@@ -65,7 +65,7 @@ require('checkvalid.php');
             <li class="divider-vertical"></li>
             <li class="active"><a href="#">浏览 <span class="sr-only">(current)</span></a></li>
             <li class="divider-vertical"></li>
-            <li><a href="#">热门帖子</a></li>
+            <li><a href="top10.php">热门帖子</a></li>
             <li class="divider-vertical"></li>
             <li><a href="#">公告</a></li>
             <li class="divider-vertical"></li>

@@ -65,7 +65,7 @@ $status = $_SESSION['status'];
                 <li class="divider-vertical"></li>
                 <li><a href='posts.php?b_id=<?php echo $bid ?>'>浏览</a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="#">热门帖子</a></li>
+                <li><a href="top10.php">热门帖子</a></li>
                 <li class="divider-vertical"></li>
                 <li class="active"><a href="#">公告 <span class="sr-only">(current)</span></a></li>
 

@@ -26,13 +26,20 @@
 
 <body>
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Henry
+ * Date: 2015/6/15
+ * Time: 20:46
+ */
+
 require('checkvalid.php');
-session_start();
+
 $username = $_SESSION['username'];
 $u_id = $_SESSION['u_id'];
 $role = $_SESSION['role'];
 $status = $_SESSION['status'];
-$bid = $_GET['b_id'];
+
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
@@ -57,17 +64,17 @@ $bid = $_GET['b_id'];
                         <li><a href="#">编辑信息</a></li>
                         <li><a href="#">短消息 <span class="badge">42</span></a></li>
                         <li class="divider"></li>
-                       <li><a href="logout.php">注销</a></li>
+                        <li><a href="logout.php">注销</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="divider-vertical"></li>
-                <li class="active"><a href="posts.php?b_id=<?php echo $bid ?>">浏览 <span class="sr-only">(current)</span></a></li>
+                <li><a>浏览 <span class="sr-only">(current)</span></a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="top10.php">热门帖子</a></li>
+                <li class="active"><a href="top10.php">热门帖子</a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="announcement.php?b_id=<?php echo $bid?>">公告</a></li>
+                <li><a>公告</a></li>
                 <li class="divider-vertical"></li>
                 <li class="divider-vertical-invisable"></li>
                 <li class="divider-vertical-invisable"></li>
@@ -82,71 +89,94 @@ $bid = $_GET['b_id'];
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
         <ul class="breadcrumb breadcrumb-post">
-            <?php
-            //require('checkvalid.php');
-
-             require("connect.php");
-            $sql = "select b_name from forum_board where b_id = $bid";
-            $query = mysql_query($sql)
-                or die("Error!");
-            $row = mysql_fetch_array($query);   //num of posts
-            $b_name = $row[0];
-            ?>
-            <li class="active">所在板块:<a href=""#><?php echo $b_name?></a></li>
-            <li><a class = "btn btn-success" href = "post.php?b_id=<?php echo $bid ?>">发布新主题</a></li>
+            <li class="active">十大热帖</li>
+            <li><a class = "btn btn-success" href = "index.php">返回首页</a></li>
         </ul>
     </div>
     <div class="panel-body" style="padding-bottom: 0px">
-        <!--<ul class="list-group">-->
+        <ul class="list-group">
         <table class="table table-striped table-hover table-content">
             <thead>
             <tr>
                 <th align="center">主题</th>
+                <th>版块名</th>
                 <th>作者</th>
                 <th>发帖时间</th>
+                <th>关注人数</th>
                 <th>点击/回复</th>
             </tr>
             </thead>
             <tbody>
             <?php
+            require("connect.php");
 
-            $topics_one_page = 10;   //display at most 20 posts in one page
-            $page_navigation = 5;
-
-            if(!isset($_GET['current_page'])){
-                $current_page = 1;
-            }
-            else{
-                $current_page = $_GET['current_page'];
-            }
-
-
-
-           // echo $bid;
-            $sql = "select count(*) from posts_topic where board_id = $bid and is_announcement = 0";
+            $sql = "select p_id, hits, reply_count, post_time from posts_topic where is_announcement = 0 and week(now()) - week(post_time) <= 1";
             $query = mysql_query($sql)
-                or die("Error!");
-            $row = mysql_fetch_array($query);   //num of posts
-            $num_row = $row[0];
-            //echo $num_row;
-            $num_page = floor($num_row / $topics_one_page) + 1;
+            or die("Error!");
+            $post_rank = array();
 
-            $start = ($current_page-1)*$topics_one_page;
-            $sql = "select * from posts_topic where board_id = $bid and is_announcement = 0 limit $start,$topics_one_page ";
-            $query = mysql_query($sql)
+            while($row = mysql_fetch_array($query, MYSQL_BOTH)) {
+                //fetch all the posts within two weeks
+
+                $sql2 = "select count(DISTINCT replier_id) from posts_reply where p_id = " . $row['p_id'];
+                $query2 = mysql_query($sql2)
                 or die("Error!");
-            while($row = mysql_fetch_array($query,MYSQL_BOTH)) {
+                $follower_count = mysql_fetch_array($query2)[0];
+
+                $hits = $row['hits'];
+                $replies = $row['reply_count'];
+                $post_time = $row['post_time'];
+                $last_time = (time() - strtotime($post_time))/86400;
+
+                if($replies == 0){
+                    $replies = 1;
+                }
+                if($hits == 0){
+                    $hits = 1;
+                }
+                if($follower_count == 0){
+                    $follower_count = 1;
+                }
+                $post_rank[$row['p_id']] = $follower_count*(0.5*$replies)*(0.25*$hits)/$last_time;
+            }
+            arsort($post_rank);
+            $ranked_p_id = array_keys($post_rank);
+            $k = 0;
+
+            while($k < 10) {
                 //fetch all the posts in the board
+
+                $sql = "select p_id, board_id, author, post_time, reply_count, title, hits  from posts_topic where p_id = " . $ranked_p_id[$k];
+                $query = mysql_query($sql)
+                or die("Error!");
+                $row = mysql_fetch_array($query);
+
+                $sql = "select b_name from forum_board where b_id = " . $row['board_id'];
+                $query = mysql_query($sql)
+                or die("Error!");
+                $b_name = mysql_fetch_array($query)[0];
+
+                $sql2 = "select count(DISTINCT replier_id) from posts_reply where p_id = " . $row['p_id'];
+                $query2 = mysql_query($sql2)
+                or die("Error!");
+                $follower_count = mysql_fetch_array($query2)[0];
+
                 ?>
                 <tr class = "table-hover">
-                    <td width="50%">
+                    <td width="30%">
                         <a href = "detail.php?id=<?php echo $row['p_id'] ?>"><?php echo $row['title']?></a>
+                    </td>
+                    <td width="10%">
+                        <a href = "posts.php?b_id=<?php echo $row['board_id'] ?>"><?php echo $b_name?></a>
                     </td>
                     <td width="10%">
                         <span class="badge"><?php echo $row['author']?></span>
                     </td>
                     <td width="20%">
                         <span class="badge"><?php echo $row['post_time']?></span>
+                    </td>
+                    <td width="10">
+                        <span class="badge"><?php echo $follower_count ?></span>
                     </td>
                     <td width="10">
                         <span class="badge"><?php echo $row['reply_count']?> reply/<?php echo $row['hits']?>hit(s)</span>
@@ -156,24 +186,22 @@ $bid = $_GET['b_id'];
                         ?>
                         <td width="10">
                             <button class = "btn btn-danger btn-xs"
-                                    onclick="if(confirm('确定删除这条帖子?'))location='deletepost.php?b_id=<?php echo $bid?>&p_id=<?php echo $row['p_id']?>'">
+                                    onclick="if(confirm('确定删除这条帖子?'))location='deletepost.php?b_id=<?php echo $row['board_id'] ?>&p_id=<?php echo $row['p_id']?>'">
                                 删除
                             </button>
                         </td>
                     <?php
-
                     }
                     ?>
                 </tr>
 
-
-
             <?php
+                $k++;
             }
 
             mysql_close();
             ?>
-            <!--</ul>-->
+            </ul>
             </tbody>
         </table>
     </div>
@@ -182,25 +210,5 @@ $bid = $_GET['b_id'];
     <ul class="pagination">
     </ul>
 </div>
-<script>
-    $('.pagination').twbsPagination({
-        totalPages: <?php echo $num_page ?>,
-        visiblePages: 10,
-        href : '?b_id=' + <?php echo $bid ?> + '&current_page={{number}}'
-//        onPageClick: function (event, page) {
-//            $('#page-content').text('Page ' + page);
-//        }
-    });
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
