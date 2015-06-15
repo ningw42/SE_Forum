@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<?php Session_start(); ?>
+<?php
+require("checkvalid.php");
+Session_start();
+?>
 <html lang="en">
 <head>
     <meta charset="utf-8">

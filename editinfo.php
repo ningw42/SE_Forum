@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
-Session_start();
+require("checkvalid.php");
+// Session_start();
 header("Content-type: text/html; charset=utf-8");
 $userid = $_SESSION['u_id'];
 $username = $_SESSION['username'];
@@ -79,6 +80,10 @@ include("connect.php");
 </div>
 </nav>
 
+<?php
+$sql = "select * from user_details WHERE u_id=".$userid;
+$row = mysql_fetch_array(mysql_query($sql));
+?>
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
         <ol class="breadcrumb breadcrumb-post">
@@ -86,40 +91,43 @@ include("connect.php");
         </ol>
     </div>
     <div class="panel-body" style="padding-bottom: 0px">
-        <form class="form-horizontal col-sm-6">
+        <form class="form-horizontal col-sm-6" id="info" action="#">
             <div class="form-group">
                 <label class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="username" placeholder="Username">
+                    <input type="text" class="form-control" name="username" placeholder="<?php echo $username ?>">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">邮箱</label>
                 <div class="col-sm-6">
-                    <input type="email" class="form-control" id="email" placeholder="Email">
+                    <input type="email" class="form-control" name="email" placeholder="<?php echo $row['email'] ?>">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">QQ</label>
+                <label class="col-sm-2 control-label">性别</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="qq" placeholder="QQ">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default <?php if ($row['gender']=="M") echo "active"?>"> <input type="radio" name="gender" value="1">男 </label>
+                        <label class="btn btn-default <?php if ($row['gender']=="F") echo "active"?>"> <input type="radio" name="gender" value="2">女 </label>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">个人主页</label>
+                <label class="col-sm-2 control-label">联系电话</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="homepage" placeholder="Homepage">
+                    <input type="phone" class="form-control" name="phone" placeholder="<?php echo $row['phone'] ?>">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">个性签名</label>
                 <div class="col-sm-6">
-                    <textarea class="form-control" rows="3" placeholder="当前个性签名"></textarea>
+                    <textarea class="form-control" name="description" rows="3" placeholder="<?php echo $row['description'] ?>"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-3">
-                    <button type="submit" class="btn btn-default">更新个人信息</button>
+                    <button type="button" id="updateinfo" style="display: none;" class="btn btn-default">更新个人信息</button>
                 </div>
             </div>
         </form>
@@ -142,4 +150,29 @@ include("connect.php");
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    var hasContent = false;
+    $('#updateinfo').click( function() {
+        if (hasContent) {
+            var p = $('#info').serialize();
+            if (p.indexOf('gender') < 0) p = p + "&gender=";
+            $.post( 'updateinfo.php', p, function(data) {
+                // console.log(data)
+                if (data == "success") {
+                    alert("success");
+                    location.reload();
+                } else if (data == "failure") {
+                    alert("failure, try again");
+                };
+            });
+        } else {
+            // TO-DO modal alert
+            console.log("unchanged")
+        }
+    });
+    $('#info').change(function (){
+        $('#updateinfo').css('display', 'block');
+        hasContent = true;
+    })
+</script>
 </html>
