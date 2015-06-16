@@ -13,4 +13,5 @@ if(!isset($_SESSION['u_id'])){
         location.href = "login.html";
     </script>
 <?php
+    exit();
 }
