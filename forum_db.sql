@@ -1,4 +1,4 @@
-create database forum;
+create database forum default character set utf8 collate utf8_general_ci;
 use forum;
 
 #primary info for user
@@ -8,7 +8,7 @@ create table user_simple(u_id int auto_increment,
                          role tinyint,
                          status tinyint,
   unique key(username),
-  primary key(u_id));
+  primary key(u_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #alter table user_simple add username varchar(20) not null;
 
@@ -21,7 +21,7 @@ create table user_details(u_id int,
                           email varchar(25),
                           posts_counts int default 0,
   primary key(u_id),
-  foreign key(u_id) references user_simple(u_id));
+  foreign key(u_id) references user_simple(u_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #forum board
 create table forum_board(b_id int auto_increment,
@@ -29,7 +29,7 @@ create table forum_board(b_id int auto_increment,
                          description varchar(80),
                          posts_count int default 0,
   unique key(b_name),
-  primary key(b_id));
+  primary key(b_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #post topic
 create table posts_topic(p_id int auto_increment,
@@ -43,14 +43,14 @@ create table posts_topic(p_id int auto_increment,
                          is_announcement boolean,
   primary key(p_id),
   foreign key(author_id) references user_simple(u_id),
-  foreign key(board_id) references forum_board(b_id));
+  foreign key(board_id) references forum_board(b_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #post content
 create table posts_content(p_id int,
                            content text,
                            attachment int,
   primary key(p_id),
-  foreign key(p_id) references posts_topic(p_id));
+  foreign key(p_id) references posts_topic(p_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #post reply
 create table posts_reply(r_id int auto_increment,
@@ -61,7 +61,7 @@ create table posts_reply(r_id int auto_increment,
                          reply_time timestamp not null default current_timestamp,
   primary key(r_id),
   foreign key(p_id) references posts_topic(p_id),
-  foreign key(replier_id) references user_simple(u_id));
+  foreign key(replier_id) references user_simple(u_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #forum message
 create table forum_message(m_id int auto_increment,
@@ -72,9 +72,5 @@ create table forum_message(m_id int auto_increment,
                            content text,
   primary key(m_id),
   foreign key(sender_id) references user_simple(u_id),
-  foreign key(receiver_id) references user_simple(u_id));
+  foreign key(receiver_id) references user_simple(u_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-#select * from forum_board;
-
-#alter table forum_board change description description varchar(80);
