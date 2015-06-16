@@ -63,7 +63,7 @@ $status = $_SESSION['status'];
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="editinfo.php">编辑信息</a></li>
                         <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
-                        <?php if($role == 0){ ?>
+                        <?php if($_SESSION['role'] == 0){ ?>
                             <li><a href="usermanagement.php">用户管理</a></li>
                             <li><a href="boardmanagement.php">版块管理</a></li>
                         <?php } ?>
