@@ -141,10 +141,14 @@ $status = $_SESSION['status'];
                 if($follower_count == 0){
                     $follower_count = 1;
                 }
-                $post_rank[$row['p_id']] = $follower_count*(0.5*$replies)*(0.25*$hits)/$last_time;
+                $post_rank[$row['p_id']] = $follower_count*(0.7*$replies)*(0.3*$hits)/$last_time;
+//                echo time();
+//                echo strtotime($post_time);
+//                echo $last_time;
             }
             arsort($post_rank);
             $ranked_p_id = array_keys($post_rank);
+//            print_r($post_rank);
             $k = 0;
 
             while($k < 10) {
