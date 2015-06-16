@@ -175,24 +175,12 @@ $status = $_SESSION['status'];
                     <td width="20%">
                         <span class="badge"><?php echo $row['post_time']?></span>
                     </td>
-                    <td width="10">
+                    <td width="20">
                         <span class="badge"><?php echo $follower_count ?></span>
                     </td>
                     <td width="10">
                         <span class="badge"><?php echo $row['reply_count']?> reply/<?php echo $row['hits']?>hit(s)</span>
                     </td>
-                    <?php
-                    if($role==0){//管理员 add delete button
-                        ?>
-                        <td width="10">
-                            <button class = "btn btn-danger btn-xs"
-                                    onclick="if(confirm('确定删除这条帖子?'))location='deletepost.php?b_id=<?php echo $row['board_id'] ?>&p_id=<?php echo $row['p_id']?>'">
-                                删除
-                            </button>
-                        </td>
-                    <?php
-                    }
-                    ?>
                 </tr>
 
             <?php

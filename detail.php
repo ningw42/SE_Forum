@@ -4,7 +4,12 @@
     // session_start();
     header("Content-type: text/html; charset=utf-8");
     $postid = $_GET['id'];
-    $pageby10 = ($_GET['page'] - 1) * 10;
+    if(!isset($_GET['page'])){
+        $pageby10 = 0;
+    }else {
+        $pageby10 = ($_GET['page'] - 1) * 10;
+    }
+//    $pageby10 = ($_GET['page'] - 1) * 10;
     $userid = $_SESSION['u_id'];
     $username = $_SESSION['username'];
     $post_count = 0;
