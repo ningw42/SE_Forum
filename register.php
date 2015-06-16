@@ -5,8 +5,8 @@
  * Date: 2015/6/12
  * Time: 23:59
  */
-//session_start();
 require ('connect.php');
+session_start();
 if(isset($_POST['register-submit'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -30,24 +30,19 @@ if(isset($_POST['register-submit'])){
 
         $sql = "insert into user_details (u_id,email) values($u_id,'$email')";
         $query = mysql_query($sql);
-        ?>
-        <script>
-            alert("注册成功！");
-            location.href = "login.html";
-        </script>
 
-        <?php
+        $_SESSION['u_id'] = $u_id;
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
+        $_SESSION['status'] = $status;
+        //echo $_SESSION['username'];
+        echo "<script>alert('注册成功！!');location.href='index.php'</script>";
+    }else{
+        echo "<script>alert('用户名已存在！');location.href='login.html'</script>";
+    }
         //header("Location:login.html");
-    }
-    else{
-        ?>
-        <script>
-            alert("用户名已经存在！");
-            location.href = "login.html";
-        </script>
-    <?php
-    }
 }
+
 
 if(isset($_POST['register-submit-t'])){
     $username = $_POST['username'];
@@ -72,22 +67,16 @@ if(isset($_POST['register-submit-t'])){
 
         $sql = "insert into user_details (u_id,email) values($u_id,'$email')";
         $query = mysql_query($sql);
-        ?>
-        <script>
-            alert("注册成功！");
-            location.href = "login.html";
-        </script>
 
-        <?php
-        //header("Location:login.html");
+        $_SESSION['u_id'] = $u_id;
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
+        $_SESSION['status'] = $status;
+        //echo $_SESSION['username'];
+        echo "<script>alert('注册成功！');location.href='index.php'</script>";
     }
     else{
-        ?>
-        <script>
-            alert("用户名已经存在！");
-            location.href = "login.html";
-        </script>
-    <?php
+        echo "<script>alert('用户名已存在！');location.href='login.html'</script>";
     }
 }
 ?>

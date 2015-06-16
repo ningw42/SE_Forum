@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
     require('checkvalid.php');
-    Session_start();
+    // session_start();
     header("Content-type: text/html; charset=utf-8");
     $postid = $_GET['id'];
     $pageby10 = ($_GET['page'] - 1) * 10;

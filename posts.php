@@ -27,7 +27,7 @@
 <body>
 <?php
 require('checkvalid.php');
-session_start();
+// session_start();
 $username = $_SESSION['username'];
 $u_id = $_SESSION['u_id'];
 $role = $_SESSION['role'];

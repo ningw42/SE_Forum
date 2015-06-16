@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 require("checkvalid.php");
-Session_start();
+// session_start();
 ?>
 <html lang="en">
 <head>

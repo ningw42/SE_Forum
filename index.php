@@ -24,6 +24,10 @@
 <body>
 <?php
     require('checkvalid.php');
+    $username = $_SESSION['username'];
+    $u_id = $_SESSION['u_id'];
+    $role = $_SESSION['role'];
+    $status = $_SESSION['status'];
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
@@ -41,7 +45,7 @@
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">用户名
+                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $username?>
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">

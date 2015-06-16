@@ -16,12 +16,7 @@ if(isset($_POST['login-submit'])){
     $row_num = mysql_num_rows($query);
     if(!$row_num){
         //no match info
-        ?>
-        <script>
-            alert("用户名或密码错误！");
-            location.href = "login.html";
-        </script>
-    <?php
+        echo "<script>alert('用户名或密码错误！');location.href='login.html'</script>";
     }
     else{//register u_id and username into session
         $row = mysql_fetch_array($query);
@@ -30,7 +25,7 @@ if(isset($_POST['login-submit'])){
         $_SESSION['role'] = $row['role'];
         $_SESSION['status'] = $row['status'];
         //echo $_SESSION['username'];
-        header("Location:index.php");
+        echo "<script>alert('登录成功!');location.href='index.php#';$</script>";
     }
 }
 ?>

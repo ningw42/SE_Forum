@@ -26,7 +26,12 @@
 <body>
 <?php
 require('checkvalid.php');
-if($_SESSION['role'] != 0){
+$username = $_SESSION['username'];
+$u_id = $_SESSION['u_id'];
+$role = $_SESSION['role'];
+$status = $_SESSION['status'];
+
+if($role != 0){
     ?>
     <script>
     alert("权限不足！");
@@ -54,7 +59,7 @@ if($_SESSION['role'] != 0){
                 </li>
                 <li class="dropdown">
                     <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-expanded="false">用户名
+                       aria-expanded="false"><?php echo $username?>
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
