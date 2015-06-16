@@ -33,7 +33,8 @@ if($_SESSION['role'] != 0){
     location.href = "index.php";
     </script>
 <?php
-}else{
+    exit();
+}
 ?>
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -215,6 +216,3 @@ if($_SESSION['role'] != 0){
 </script>
 </body>
 </html>
-<?php
-}
-?>
