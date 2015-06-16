@@ -40,14 +40,20 @@
 </head>
 
 <body>
+<?php
+// post title
+$sql = "select * from posts_topic WHERE p_id=".$postid;
+$result = mysql_query($sql);
+$row = mysql_fetch_array($result);
+?>
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="nav-wrapper">
     <div class="container-fluid">
-        <form class="navbar-form navbar-left" role="search">
+        <form class="navbar-form navbar-left" role="search" method="post" action="posts.php?b_id=<?php echo $row['board_id'] ?>">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="帖子或作者">
+                <input type="text" name="keyword" class="form-control" placeholder="帖子或作者">
             </div>
-            <button type="submit" class="btn btn-default">搜索</button>
+            <button type="submit" class="btn btn-default" name="search">搜索</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li>
@@ -92,11 +98,6 @@
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
         <?php
-        // post title
-        $sql = "select * from posts_topic WHERE p_id=".$postid;
-        $result = mysql_query($sql);
-        $row = mysql_fetch_array($result);
-
         echo $row['title'];
         ?>
         <div style="float: right">

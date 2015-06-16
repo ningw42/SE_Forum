@@ -56,11 +56,11 @@ if($role != 0){
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
         <div class="container-fluid">
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" method="post" action="posts.php">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="帖子或作者">
+                    <input type="text" name="keyword" class="form-control" placeholder="帖子或作者">
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
+                <button type="submit" class="btn btn-default" name="search">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
