@@ -71,6 +71,10 @@ $bid = $_GET['b_id'];
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="editinfo.php">编辑信息</a></li>
                         <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
+                        <?php if($role == 0){ ?>
+                            <li><a href="usermanagement.php">用户管理</a></li>
+                            <li><a href="boardmanagement.php">版块管理</a></li>
+                        <?php } ?>
                         <li class="divider"></li>
                         <li><a href="logout.php">注销</a></li>
                     </ul>
