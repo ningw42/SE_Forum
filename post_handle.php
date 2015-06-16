@@ -21,21 +21,28 @@ if(isset($_POST['submit'])){ //普通帖子
         or die("Error!");
     $row = mysql_fetch_array($query);
     $pid = $row[0]+1;
+    mysql_query("SET AUTOCOMMIT=0");
+    mysql_query("START TRANSACTION");   //assure atomic
     //echo $pid;
     $sql = "insert into posts_topic (p_id,title,author_id,author,board_id,is_announcement) values ($pid,'$title',$author_id,'$author',$bid,$is_announcement)";
 
-    $query = mysql_query($sql)
+    $query1 = mysql_query($sql)
         or die("Error!");
 
     $sql = "insert into posts_content (p_id,content,attachment) values ($pid,'$content',$attachment)";
 
-    $query = mysql_query($sql)
+    $query2 = mysql_query($sql)
         or die("Error!");
 
     $sql = "update forum_board set posts_count = posts_count + 1 where b_id = $bid";
-    $query = mysql_query($sql)
+    $query3 = mysql_query($sql)
         or die("Error!");
-
+    if ($query1 and $query2 and $query3) {
+        mysql_query("COMMIT");
+    } else {
+        mysql_query("ROLLBACK");
+    }
+    mysql_query("SET AUTOCOMMIT=1");
     ?>
     <script>
         alert("发帖成功，跳转至帖子详细页面！");
@@ -57,6 +64,9 @@ if(isset($_POST['submit_announcement'])){
     //echo $content."<br>";
     $attachment = -1;
 
+    mysql_query("SET AUTOCOMMIT=0");
+    mysql_query("START TRANSACTION");   //assure atomic
+
     $sql = "select max(p_id) from posts_topic";
     $query = mysql_query($sql)
     or die("Error!");
@@ -65,18 +75,23 @@ if(isset($_POST['submit_announcement'])){
     //echo $pid;
     $sql = "insert into posts_topic (p_id,title,author_id,author,board_id,is_announcement) values ($pid,'$title',$author_id,'$author',$bid,$is_announcement)";
 
-    $query = mysql_query($sql)
+    $query1 = mysql_query($sql)
     or die("Error!");
 
     $sql = "insert into posts_content (p_id,content,attachment) values ($pid,'$content',$attachment)";
 
-    $query = mysql_query($sql)
+    $query2 = mysql_query($sql)
     or die("Error!");
 
     $sql = "update forum_board set posts_count = posts_count + 1 where b_id = $bid";
-    $query = mysql_query($sql)
+    $query3 = mysql_query($sql)
     or die("Error!");
-
+    if ($query1 and $query2 and $query3) {
+        mysql_query("COMMIT");
+    } else {
+        mysql_query("ROLLBACK");
+    }
+    mysql_query("SET AUTOCOMMIT=1");
     ?>
     <script>
         alert("公告发布成功，跳转至公告详细页面！");

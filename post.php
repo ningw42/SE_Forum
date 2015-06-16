@@ -41,7 +41,9 @@
 
 <body>
 <?php
+
 require('checkvalid.php');
+require("connect.php");
 // session_start();
 $username = $_SESSION['username'];
 $u_id = $_SESSION['u_id'];
@@ -102,10 +104,9 @@ $bid = $_GET['b_id'];
     <div class="panel-heading">
         <ol class="breadcrumb breadcrumb-post">
             <?php
-
             if(isset($_GET['b_id']))
                 $bid = $_GET['b_id'];
-            require("connect.php");
+
             $sql = "select b_name from forum_board where b_id = $bid";
             $query = mysql_query($sql)
                 or die("Error!");
