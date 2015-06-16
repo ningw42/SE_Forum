@@ -24,8 +24,17 @@
 </head>
 
 <body>
+
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Henry
+ * Date: 2015/6/16
+ * Time: 12:01
+ */
+
 require('checkvalid.php');
+
 $username = $_SESSION['username'];
 $u_id = $_SESSION['u_id'];
 $role = $_SESSION['role'];
@@ -34,12 +43,14 @@ $status = $_SESSION['status'];
 if($role != 0){
     ?>
     <script>
-    alert("权限不足！");
-    location.href = "index.php";
+        alert("权限不足！");
+        location.href = "index.php";
     </script>
-<?php
+    <?php
     exit();
 }
+
+
 ?>
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -58,8 +69,7 @@ if($role != 0){
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-expanded="false"><?php echo $username?>
+                    <a href="#" id="username-nav" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $username ?>
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
@@ -91,113 +101,77 @@ if($role != 0){
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
         <ol class="breadcrumb breadcrumb-post">
-            <li class="active">所在板块</li>
+            <li class="active">用户管理</li>
         </ol>
     </div>
     <div class="panel-body" style="padding-bottom: 0px">
         <table class="table table-striped table-hover table-content">
             <thead>
             <tr>
-                <th align="center">板块ID</th>
-                <th>板块名</th>
-                <th>板块简介</th>
-                <th>板块帖子数</th>
-                <th>操作</th>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>性别</th>
+                <th>个性签名</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>发帖数</th>
+                <th>组别</th>
+                <th>状态</th>
             </tr>
             </thead>
             <tbody>
             <?php
-            /**
-             * Created by PhpStorm.
-             * User: Henry
-             * Date: 2015/6/10
-             * Time: 20:02
-             */
-
             include('connect.php');
 
-            $sql = "SELECT count(*) FROM `forum_board`;";
+            $sql = "SELECT count(*) FROM `user_simple`;";
             $query = mysql_query($sql);
-            $board_number = mysql_fetch_array($query)[0];
+            $user_number = mysql_fetch_array($query)[0];
 
             if(!isset($_GET['page'])){
                 $pagestart = 0;
             }else {
                 $pagestart = ($_GET['page'] - 1) * 10;
             }
-            $sql = "SELECT `b_id`, `b_name`, `description`, `posts_count` FROM `forum_board` order by `b_id`"." LIMIT ".$pagestart.", 10;";
+            $sql = "SELECT `u_id`, `username`, `role`, `status` FROM `user_simple` order by `u_id`"." LIMIT ".$pagestart.", 10;";
+            $sql2 = "SELECT `gender`, `description`, `phone`, `email`, `posts_counts` FROM `user_details` order by `u_id`"." LIMIT ".$pagestart.", 10;";
             $query = mysql_query($sql);
+            $query2 = mysql_query($sql2);
             while ($row = mysql_fetch_array($query, MYSQL_BOTH)) {
-                ?>
-
-                <tr class="table-hover">
-                    <td width="10%">
-                        <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_id'];
-                            $b_id = $row['b_id'] ?></a>
-                    </td>
-                    <td width="15%">
-                        <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_name'] ?></a>
-                    </td>
-                    <td width="55%">
-                        <p style="margin-bottom: 0px"><?php echo $row['description'] ?></p>
-                    </td>
-                    <td width="10%">
-                        <p style="margin-bottom: 0px"><?php echo $row['posts_count'] ?></p>
-                    </td>
-                    <td width="10%" align="center">
-                        <button class="btn btn-danger btn-xs"
-                                onclick="javascript:if(confirm('确定删除该板块?'))location='deleteboard.php?del=<?php echo $row['b_id'] ?>'">
-                            删除板块
-                        </button>
-                    </td>
-                </tr>
-            <?php
-            }
-            if($b_id == $board_number){
+                $row2 = mysql_fetch_array($query2, MYSQL_BOTH);
             ?>
-
-            <script type="text/javascript">
-                function checkSubmit(){
-                    if ( confirm("确定新建版块？")){
-                        var name = document.createboard.name.value;
-                        var description = document.createboard.description.value;
-                        if( name == "" || description == "" ){
-                            alert("请输入版块名或版块简介！");
-                            document.createboard.name.focus();
-                            return false;
-                        }
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            </script>
-
-            <form name="createboard" action="createboard.php?id=<?php echo $b_id + 1 ?>" class="form-horizontal" method="post" onsubmit="return checkSubmit()">
             <tr class="table-hover">
                 <td width="10%">
-                    <a href="#" onclick="return false"><?php echo $b_id + 1 ?></a>
-                </td>
-                <td width="15%">
-                    <div class="input-group input-group-sm" style="width: 100%">
-                        <input type="text" class="form-control" placeholder="板块名" name="name">
-                    </div>
-                </td>
-                <td width="55%">
-                    <div class="input-group input-group-sm" style="width: 100%">
-                        <input type="text" class="form-control" placeholder="板块简介" name="description">
-                    </div>
+                    <p style="margin-bottom: 0px"><?php echo $row['u_id'] ?></p>
                 </td>
                 <td width="10%">
-                    <p style="margin-bottom: 0px">
-                        <span class="glyphicon glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-                    </p>
+                    <p style="margin-bottom: 0px"><?php echo $row['username'] ?></p>
+                </td>
+                <td width="10%">
+                    <p style="margin-bottom: 0px"><?php echo ($row2['gender'] == 'M') ? "男" : "女" ?></p>
+                </td>
+                <td width="15%">
+                    <p style="margin-bottom: 0px"><?php echo $row2['description'] ?></p>
+                </td>
+                <td width="15%">
+                    <p style="margin-bottom: 0px"><?php echo $row2['phone'] ?></p>
+                </td>
+                <td width="10%">
+                    <p style="margin-bottom: 0px"><?php echo $row2['email'] ?></p>
+                </td>
+                <td width="10%">
+                    <p style="margin-bottom: 0px"><?php echo $row2['posts_counts'] ?></p>
+                </td>
+                <td width="10%">
+                    <p style="margin-bottom: 0px"><?php echo ($row['role'] == 0) ? "管理员" : (($row['role'] == 1) ? "学生" : "教师") ?></p>
                 </td>
                 <td width="10%" align="center">
-                    <button class="btn btn-success btn-sm" type="submit" name="sub">新建板块</button>
+                    <?php if($row['status']){ ?>
+                        <button class="btn btn-danger btn-xs btn-admit" onclick="javascript:if(confirm('确定恢复正常？'))location='changestatus.php?u_id=<?php echo $row['u_id'] ?>&currentstatus=1'">禁言</button>
+                    <?php }else{ ?>
+                        <button class="btn btn-success btn-xs btn-forbid" onclick="javascript:if(confirm('确定禁言用户？'))location='changestatus.php?u_id=<?php echo $row['u_id'] ?>&currentstatus=0'">正常</button>
+                    <?php } ?>
                 </td>
             </tr>
-            </form>
             <?php
             }
             ?>
@@ -211,13 +185,26 @@ if($role != 0){
 </div>
 <script type="text/javascript">
     $('.pagination').twbsPagination({
-        totalPages: <?php echo ceil($board_number / 10.0) ?>,
+        totalPages: <?php echo ceil($user_number / 10.0) ?>,
         visiblePages: 5,
         href : '?page={{number}}'
 //        onPageClick: function (event, page) {
 //            $('#page-content').text('Page ' + page);
 //        }
     });
+
+    $(".btn-forbid").mouseover(function () {
+        this.innerHTML = "禁言"
+    })
+    $(".btn-forbid").mouseout(function () {
+        this.innerHTML = "正常"
+    })
+    $(".btn-admit").mouseover(function () {
+        this.innerHTML = "恢复"
+    })
+    $(".btn-admit").mouseout(function () {
+        this.innerHTML = "禁言"
+    })
 </script>
 </body>
 </html>

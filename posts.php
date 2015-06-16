@@ -54,8 +54,8 @@ $bid = $_GET['b_id'];
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">编辑信息</a></li>
-                        <li><a href="#">短消息 <span class="badge">42</span></a></li>
+                        <li><a href="editinfo.php">编辑信息</a></li>
+                        <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
                         <li class="divider"></li>
                        <li><a href="logout.php">注销</a></li>
                     </ul>

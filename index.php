@@ -49,8 +49,8 @@
                         <!-- <span class="caret"></span> -->
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">编辑信息</a></li>
-                        <li><a href="#">短消息 <span class="badge">42</span></a></li>
+                        <li><a href="editinfo.php">编辑信息</a></li>
+                        <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
                         <li class="divider"></li>
                        <li><a href="logout.php">注销</a></li>
                     </ul>
@@ -58,11 +58,11 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="divider-vertical"></li>
-                <li class="active"><a href="#">浏览 <span class="sr-only">(current)</span></a></li>
+                <li><a>浏览 <span class="sr-only">(current)</span></a></li>
                 <li class="divider-vertical"></li>
                 <li><a href="top10.php">热门帖子</a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="#">公告</a></li>
+                <li><a>公告</a></li>
                 <li class="divider-vertical"></li>
                 <li class="divider-vertical-invisable"></li>
                 <li class="divider-vertical-invisable"></li>
