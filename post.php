@@ -120,7 +120,7 @@ $bid = $_GET['b_id'];
         </ol>
     </div>
     <div class="panel-body">
-        <form name="post" action="post_handle.php?b_id=<?php echo $bid ?>" method="POST" onsubmit="return checkSubmit()">
+        <form name="post" enctype="multipart/form-data" action="post_handle.php?b_id=<?php echo $bid ?>" method="POST" onsubmit="return checkSubmit()">
             <div class="input-group">
                 <span class="input-group-addon" >主题</span>
                 <input type="text" class="form-control" placeholder="120个字符以内" name="title">
@@ -129,7 +129,7 @@ $bid = $_GET['b_id'];
                 </span>
             </div>
             <textarea class="form-control input-textarea" rows="10" placeholder="帖子内容" name = "content"></textarea>
-
+            <input type="file" name="uploadfile" id="uploadfile">
         </form>
     </div>
 </div>
