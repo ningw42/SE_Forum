@@ -110,7 +110,7 @@ require("connect.php");
                 $b_name = $row[0];
             ?>
             <li class="active">所在板块:<a href="posts.php?b_id=<?php echo $bid ?>"><?php echo  $b_name ?></a></li>
-                <li><a class="btn btn-success" href="post.php?b_id=<?php echo $bid ?>" onclick="return  checkPost()">发布新主题</a></li>
+                <li><a class="btn btn-success" href="post.php?b_id=<?php echo $bid ?>" onclick="return checkPost()">发布新主题</a></li>
             <?php }else{ ?>
                 <li class="active">全站搜索</li>
             <?php } ?>
@@ -255,9 +255,10 @@ require("connect.php");
 </script>
 <script>
     function checkPost(){
-        if(<?php echo $status?>)
+        if(<?php echo $status?>) {
             alert("摊上事了，被禁言了，快联系管理员吧亲！");
             return false;
+        }
         return true;
     }
 </script>
