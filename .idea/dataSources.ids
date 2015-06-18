@@ -32,7 +32,7 @@
       <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="attachment" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="p_id"/>
-      <foreign-key name="posts_content_ibfk_1" columns="p_id" ref-table="posts_topic" ref-schema="" ref-catalog="forum" ref-columns="p_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="posts_content_ibfk_1" columns="p_id" ref-table="posts_topic" ref-schema="" ref-catalog="forum" ref-columns="p_id" update-rule="3" delete-rule="0" deferrability="2"/>
     </table>
     <table name="posts_reply" schema="" catalog="forum" type="TABLE">
       <column name="r_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -42,8 +42,8 @@
       <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="reply_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
       <primary-key name="PRIMARY" columns="r_id"/>
-      <foreign-key name="posts_reply_ibfk_3" columns="p_id" ref-table="posts_topic" ref-schema="" ref-catalog="forum" ref-columns="p_id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="posts_reply_ibfk_2" columns="replier_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="posts_reply_ibfk_3" columns="p_id" ref-table="posts_topic" ref-schema="" ref-catalog="forum" ref-columns="p_id" update-rule="3" delete-rule="0" deferrability="2"/>
     </table>
     <table name="posts_topic" schema="" catalog="forum" type="TABLE">
       <column name="p_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -56,8 +56,8 @@
       <column name="reply_count" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
       <column name="is_announcement" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="p_id"/>
-      <foreign-key name="posts_topic_ibfk_2" columns="board_id" ref-table="forum_board" ref-schema="" ref-catalog="forum" ref-columns="b_id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="posts_topic_ibfk_1" columns="author_id" ref-table="user_simple" ref-schema="" ref-catalog="forum" ref-columns="u_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="posts_topic_ibfk_2" columns="board_id" ref-table="forum_board" ref-schema="" ref-catalog="forum" ref-columns="b_id" update-rule="3" delete-rule="0" deferrability="2"/>
       <exported-key name="posts_content_ibfk_1" table="posts_content" schema="" catalog="forum" columns="p_id"/>
       <exported-key name="posts_reply_ibfk_3" table="posts_reply" schema="" catalog="forum" columns="p_id"/>
     </table>
