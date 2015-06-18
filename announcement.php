@@ -160,7 +160,7 @@ $status = $_SESSION['status'];
                 ?>
                 <tr class = "table-hover">
                     <td width="50%">
-                        <a href = "detail.php?id=<?php echo $row['p_id'] ?>"><?php echo $row['title']?></a>
+                        <a href = "addhit.php?id=<?php echo $row['p_id'] ?>"><?php echo $row['title']?></a>
                     </td>
                     <td width="10%">
                         <span class="badge"><?php echo $row['author']?></span>
@@ -169,7 +169,7 @@ $status = $_SESSION['status'];
                         <span class="badge"><?php echo $row['post_time']?></span>
                     </td>
                     <td width="10">
-                        <span class="badge"><?php echo $row['reply_count']?> reply</span>
+                        <span class="badge"><?php echo $row['hits']?> hit(s)</span>
                     </td>
                     <?php
                     if($role==0){//管理员 add delete button

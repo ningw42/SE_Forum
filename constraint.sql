@@ -9,3 +9,5 @@ alter table posts_reply add constraint foreign key(p_id) references posts_topic(
 #posts_content(p_id) on delete cascade
 alter table posts_content drop foreign key posts_content_ibfk_1;
 alter table posts_content add constraint foreign key(p_id) references posts_topic(p_id) on delete cascade;
+
+CREATE TRIGGER `reply_increament` AFTER INSERT ON `posts_reply` FOR EACH ROW UPDATE posts_topic SET reply_count=reply_count+1 WHERE p_id=NEW.p_id;
