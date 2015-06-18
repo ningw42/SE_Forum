@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <?php
-require("checkvalid.php");
-// session_start();
+    require("checkvalid.php");
+    if(!isset($_GET['page'])){
+        $pageby10 = 0;
+    }else {
+        $pageby10 = ($_GET['page'] - 1) * 10;
+    }
 ?>
 <html lang="en">
 <head>
@@ -26,8 +30,8 @@ require("checkvalid.php");
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
-    <!-- Popup -->
-<!--    <script src="js/popbox.min.js"></script>-->
+    <!-- Page -->
+    <script src="js/jquery.twbsPagination.min.js"></script>
 </head>
 
 <body>
@@ -105,7 +109,7 @@ require("checkvalid.php");
             */
             include('connect.php');
             $tz = new DateTimeZone('Asia/Shanghai');
-            $sql = 'select * from forum_message where receiver_id = '.$_SESSION['u_id'].' order by send_time desc';
+            $sql = 'select * from forum_message where receiver_id = '.$_SESSION['u_id'].' order by send_time desc LIMIT '.$pageby10.', 10';
             $result = mysql_query($sql);?>
             <tbody  id="mesgtable">
                 <?php
@@ -141,19 +145,11 @@ require("checkvalid.php");
         </table>
     </div>
 </div>
-<nav>
-    <div class="paginator-wrapper">
-    <ul class="pagination paginator">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
+
+<div class="text-center">
+    <ul class="pagination">
     </ul>
-    </div>
-</nav>
+</div>
 
 <!-- replyModal -->
 <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -201,7 +197,11 @@ require("checkvalid.php");
         </div>
     </div>
 </div>
-
+<?php
+    $sql = 'select count(*) from forum_message where receiver_id = '.$_SESSION['u_id'];
+    $result = mysql_query($sql);
+    $totalmessagecount = mysql_fetch_array($result)[0];
+?>
 <script type="text/javascript">
     function deletemesg (d) {
         var messageID = d.getAttribute("m_id");
@@ -257,6 +257,11 @@ require("checkvalid.php");
             }, 50));
             // 收起input Modal
         });
+    });
+    $('.pagination').twbsPagination({
+        totalPages: <?php echo ceil($totalmessagecount / 10.0);?>,
+        visiblePages: 10,
+        href : '?page={{number}}'
     });
 </script>
 </body>
