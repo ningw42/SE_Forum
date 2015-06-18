@@ -9,7 +9,6 @@
     }else {
         $pageby10 = ($_GET['page'] - 1) * 10;
     }
-//    $pageby10 = ($_GET['page'] - 1) * 10;
     $userid = $_SESSION['u_id'];
     $username = $_SESSION['username'];
     $post_count = 0;
@@ -137,7 +136,7 @@ $row = mysql_fetch_array($result);
                     </td>
                 </tr>
                 <?php }
-                $sql = "select * from posts_reply WHERE p_id=".$postid." order by r_id"." LIMIT ".$pageby10.", 10";
+                $sql = "select * from posts_reply WHERE p_id=".$postid." order by reply_time LIMIT ".$pageby10.", 10";
                 $result = mysql_query($sql);
                 // echo $sql;
                 while ($row = mysql_fetch_array($result) and $post_count++ < 10) {
@@ -194,20 +193,25 @@ $totalreplycount = mysql_fetch_array($result)[0];
 ?>
 <script type="text/javascript">
     $('#sendreply').on('click', function () {
-        var reply_content = $('#replyonpage').val();
-        console.log(reply_content.length);
-        if (reply_content.length == 0) {
-            // TO-DO bootstrap warning
-            alert("empty");
-            return;
+        var ban = <?php echo $_SESSION['status'];?>;
+        if (ban == 1) {
+            alert('你被禁言');
         }
-        var p_id = <?php echo $postid ?>;
-        var replier_id = <?php echo $userid ?>;
-        var replier = "<?php echo $username ?>";
-        $.get('replypost.php', {p_id : p_id, replier_id : replier_id, replier : replier, content : reply_content}, function (response) {
-            console.log(response)
-            location.reload();
-        })
+        else {
+            var reply_content = $('#replyonpage').val();
+            if (reply_content.length == 0) {
+                // TO-DO bootstrap warning
+                alert("empty");
+                return;
+            }
+            var p_id = <?php echo $postid ?>;
+            var replier_id = <?php echo $userid ?>;
+            var replier = "<?php echo $username ?>";
+            $.get('replypost.php', {p_id : p_id, replier_id : replier_id, replier : replier, content : reply_content}, function (response) {
+                console.log(response)
+                location.reload();
+            })
+        }
     });
 
     $('.pagination').twbsPagination({

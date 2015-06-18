@@ -13,12 +13,10 @@ $p_id = $_GET['p_id'];
 $replier_id = $_GET['replier_id'];
 $replier = $_GET['replier'];
 
-$sql = "insert into posts_reply (`p_id`, `replier_id`, `replier`, `content`) VALUES ('".$p_id."', '".$replier_id."', '".$replier."', '".$content."')";
+$r1 = mysql_query("INSERT INTO posts_reply (`p_id`, `replier_id`, `replier`, `content`) VALUES ('".$p_id."', '".$replier_id."', '".$replier."', '".$content."')");
 
-$result = mysql_query($sql);
-
-if (!$result) {
-    echo "failure";
-} else {
+if ($r1) {
     echo "success";
+} else {
+    echo "failure";
 }
