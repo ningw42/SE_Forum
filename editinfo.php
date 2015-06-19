@@ -23,15 +23,24 @@ include("connect.php");
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
-    <!-- Popup -->
-    <!-- <link href='css/popbox.css' rel='stylesheet'> -->
+    <!-- Upload -->
+    <link rel="stylesheet" href="css/jquery.fileupload.css">
 
     <!-- jQuery -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
-    <!-- Popup -->
-    <!-- // <script src="js/popbox.min.js"></script> -->
+    <!-- Upload -->
+    <script src="js/jquery.ui.widget.js"></script>
+    <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+    <script src="js/jquery.iframe-transport.js"></script>
+    <script src="js/jquery.fileupload.js"></script>
+    <script src="js/jquery.fileupload-process.js"></script>
+    <script src="js/jquery.fileupload-image.js"></script>
+    <!-- The File Upload validation plugin -->
+    <script src="js/jquery.fileupload-validate.js"></script>
+    <!-- Main Upload JS -->
+    <script src="js/upload.js"></script>
 </head>
 
 <body>
@@ -135,22 +144,28 @@ $row = mysql_fetch_array(mysql_query($sql));
                 </div>
             </div>
         </form>
-        <form class="form-horizontal col-sm-6">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">头像</label>
-                <div class="col-sm-6">
-                    <img src="images/Akari.png" class="img-thumbnail"style="width: 100%">
-                </div>
-                <div class="col-sm-offset-2 col-sm-6">
-                    <input type="file" name="imagefilename" accept="image/jpeg" id="InputFile">
-                </div>
+        <div class="col-sm-6">
+            <label class="col-sm-2 control-label">头像</label>
+            <div class="col-sm-6">
+                <img src="images/Akari.png" class="img-thumbnail" style="width: 100%; height: 100%;">
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-3">
-                    <button type="submit" class="btn btn-default">上传头像</button>
-                </div>
+            <div class="col-sm-offset-2 col-sm-3">
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>上传头像</span>
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="files" accept="image/png, image/jpeg">
+                </span>
             </div>
-        </form>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-default">保存更新</button>
+            </div>
+            </br>
+            <div id="progress" class="progress col-sm-offset-2">
+                <div class="progress-bar progress-bar-success"></div>
+            </div>
+            <div id="files" class="files"></div>
+        </div>
     </div>
 </div>
 </body>

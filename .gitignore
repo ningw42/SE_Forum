@@ -5,7 +5,8 @@
 
 *.name
 .phpintel/*
-.phpintel/*
+php/*
+uploadhandler/*
 *.ids
 .idea/dataSources.ids
 .idea/sqldialects.xml
