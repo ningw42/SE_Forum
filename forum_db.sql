@@ -48,7 +48,7 @@ create table posts_topic(p_id int auto_increment,
 #post content
 create table posts_content(p_id int,
                            content text,
-                           attachment int,
+                           attachment varchar(20),
   primary key(p_id),
   foreign key(p_id) references posts_topic(p_id))ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

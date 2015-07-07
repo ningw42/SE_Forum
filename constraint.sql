@@ -1,3 +1,4 @@
+use forum;
 #posts_topic(b_id) on delete cascade
 alter table posts_topic drop foreign key posts_topic_ibfk_2;
 alter table posts_topic add constraint foreign key(board_id) references forum_board(b_id) on delete cascade;

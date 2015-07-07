@@ -27,17 +27,26 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
             else
             {
 
-            //echo "Upload: " . $_FILES["uploadfile"]["name"] . "<br />";
-            //echo "Type: " . $_FILES["uploadfile"]["type"] . "<br />";
-            //echo "Size: " . ($_FILES["uploadfile"]["size"] / 1024) . " Kb<br />";
-            //echo "Stored in: " . $_FILES["uploadfile"]["tmp_name"];
-                $string = strrev($_FILES['uploadfile']['name']);
-                $array = explode('.',$string);
-                $type =$array[0];
-                move_uploaded_file($_FILES["uploadfile"]["tmp_name"],
-                    "upload/".$attachment.'.'.$type);
-                //echo "Stored in: " . "upload/" . $_FILES["file"]["name"];
+//                echo "Upload: " . $_FILES["uploadfile"]["name"] . "<br />";
+//                echo "Type: " . $_FILES["uploadfile"]["type"] . "<br />";
+//                echo "Size: " . ($_FILES["uploadfile"]["size"] / 1024) . " Kb<br />";
+//                echo "Stored in: " . $_FILES["uploadfile"]["tmp_name"];
+
+                $attachment = $attachment . "_" . $_FILES['uploadfile']['name'];
+                if (file_exists("upload/" . $attachment)) {
+                    echo "<script>alert('$attachment already exist')</script>";
+                }else{
+                    $string = strrev($_FILES['uploadfile']['name']);
+                    $array = explode('.',$string);
+                    $type = $array[0];
+                    move_uploaded_file($_FILES["uploadfile"]["tmp_name"],
+                        "upload/".$attachment);
+//                    echo $attachment;
+                }
             }
+        }
+        else{
+            echo "<script>alert('附件大小超过限制')</script>";
         }
     }
     else{
@@ -60,7 +69,7 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
 
     $sql = "select max(p_id) from posts_topic";
     $query = mysql_query($sql)
-        or die("Error!");
+        or die("Error1!");
     $row = mysql_fetch_array($query);
     $pid = $row[0]+1;
     mysql_query("SET AUTOCOMMIT=0");
@@ -69,16 +78,16 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
     $sql = "insert into posts_topic (p_id,title,author_id,author,board_id,is_announcement) values ($pid,'$title',$author_id,'$author',$bid,$is_announcement)";
 
     $query1 = mysql_query($sql)
-        or die("Error!");
+        or die("Error2!");
 
-    $sql = "insert into posts_content (p_id,content,attachment) values ($pid,'$content',$attachment)";
+    $sql = "insert into posts_content (p_id,content,attachment) values ($pid,'$content', '$attachment')";
 
     $query2 = mysql_query($sql)
-        or die("Error!");
+        or die("Error3!");
 
     $sql = "update forum_board set posts_count = posts_count + 1 where b_id = $bid";
     $query3 = mysql_query($sql)
-        or die("Error!");
+        or die("Error4!");
     if ($query1 and $query2 and $query3) {
         mysql_query("COMMIT");
     } else {
@@ -88,7 +97,7 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
     ?>
     <script>
         alert("发布成功，跳转至详细页面！");
-        location.href = 'detail.php?id=<?php echo $pid ?> ';
+        location.href = 'detail.php?id=<?php echo $pid; ?>';
     </script>
 
 <?php

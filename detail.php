@@ -129,7 +129,12 @@ $row = mysql_fetch_array($result);
                                 $row = mysql_fetch_array($result);
                                 $attachment = $row['attachment'];
                                 $postcontent = $row['content'];
-                                echo $postcontent;
+                                echo $postcontent . "</br></br>";
+                                if($attachment != "-1"){
+                                ?>
+                                    <a href="download.php?filename=<?php echo $attachment; ?>">附件下载: <?php echo explode('_', $attachment)[1]; ?>
+                                <?php
+                                }
                                 ?>
                             </div>
                         </div>
@@ -208,7 +213,7 @@ $totalreplycount = mysql_fetch_array($result)[0];
             var replier_id = <?php echo $userid ?>;
             var replier = "<?php echo $username ?>";
             $.get('replypost.php', {p_id : p_id, replier_id : replier_id, replier : replier, content : reply_content}, function (response) {
-                console.log(response)
+                console.log(response);
                 location.reload();
             })
         }
