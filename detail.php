@@ -11,6 +11,7 @@
     }
     $userid = $_SESSION['u_id'];
     $username = $_SESSION['username'];
+    $avatar = $_SESSION['avatar'];
     $post_count = 0;
     include("connect.php");
 ?>
@@ -44,6 +45,13 @@
 $sql = "select * from posts_topic WHERE p_id=".$postid;
 $result = mysql_query($sql);
 $row = mysql_fetch_array($result);
+$topic_owner_id = $row['author_id'];
+$topic_owner_Avatar = mysql_fetch_array(mysql_query("select photo from user_details WHERE u_id=".$topic_owner_id))['photo'];
+if (!$topic_owner_Avatar) {
+    $topic_owner_Avatar = $DEFAULT_PHOTO;
+} else {
+    $topic_owner_Avatar = 'userAvatar/'.$topic_owner_Avatar;
+}
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="nav-wrapper">
@@ -57,7 +65,7 @@ $row = mysql_fetch_array($result);
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="navbar-header">
-                    <img alt="avatar" src="images/Akari.png" class="img-nav img-rounded">
+                    <img alt="avatar" src="<?php echo $avatar; ?>" class="img-nav img-rounded">
                 </div>
             </li>
             <li class="dropdown">
@@ -114,7 +122,7 @@ $row = mysql_fetch_array($result);
                         <div style="margin-bottom: 5px">
                             <span class="label label-default"><?php echo $row['author'] ?></span>
                         </div>
-                        <img src="images/Akari.png" class="img-thumbnail" width="100%">
+                        <img src="<?php echo $topic_owner_Avatar; ?>" class="img-thumbnail" width="100%">
                         <div style="margin-bottom: 5px">
                             <span class="label label-default" id="timestamp"><?php echo $row['post_time'] ?></span>
                         </div>
@@ -145,13 +153,21 @@ $row = mysql_fetch_array($result);
                 $result = mysql_query($sql);
                 // echo $sql;
                 while ($row = mysql_fetch_array($result) and $post_count++ < 10) {
+                    $tempUserId = $row['replier_id'];
+                    $tempAvatar = mysql_fetch_array(mysql_query("select photo from user_details WHERE u_id=".$tempUserId))['photo'];
+
+                    if (!$tempAvatar) {
+                        $tempAvatar = $DEFAULT_PHOTO;
+                    } else {
+                        $tempAvatar = 'userAvatar/'.$tempAvatar;
+                    }
                 ?>
                 <tr class="table-hover">
                     <td width="15%" align="center">
                         <div style="margin-bottom: 5px">
                             <span class="label label-default"><?php echo $row['replier'] ?></span>
                         </div>
-                        <img src="images/Akari.png" class="img-thumbnail" width="100%">
+                        <img src="<?php echo $tempAvatar;?>" class="img-thumbnail" width="100%">
                         <div style="margin-bottom: 5px">
                             <span class="label label-default" id="timestamp"><?php echo $row['reply_time'] ?></span>
                         </div>

@@ -6,4 +6,6 @@
 	mysql_select_db('forum', $con);
 
 	mysql_query("SET NAMES 'utf8'");
+
+    $DEFAULT_PHOTO = "images/Akari.png";
 ?>

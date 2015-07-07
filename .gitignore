@@ -7,8 +7,5 @@
 .phpintel/*
 php/*
 uploadhandler/*
-*.ids
-.idea/dataSources.ids
-.idea/sqldialects.xml
-.idea/dataSources.ids
-.idea/sqldialects.xml
+.idea/*
+userAvatar/*

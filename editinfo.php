@@ -5,6 +5,7 @@ require("checkvalid.php");
 header("Content-type: text/html; charset=utf-8");
 $userid = $_SESSION['u_id'];
 $username = $_SESSION['username'];
+$avatar = $_SESSION['avatar'];
 include("connect.php");
 ?>
 <html lang="en">
@@ -24,26 +25,30 @@ include("connect.php");
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
     <!-- Upload -->
-    <link rel="stylesheet" href="css/jquery.fileupload.css">
+<!--    <link rel="stylesheet" href="css/jquery.fileupload.css">-->
 
     <!-- jQuery -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
     <!-- Upload -->
-    <script src="js/jquery.ui.widget.js"></script>
-    <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-    <script src="js/jquery.iframe-transport.js"></script>
-    <script src="js/jquery.fileupload.js"></script>
-    <script src="js/jquery.fileupload-process.js"></script>
-    <script src="js/jquery.fileupload-image.js"></script>
+<!--    <script src="js/jquery.ui.widget.js"></script>-->
+<!--    <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>-->
+<!--    <script src="js/jquery.iframe-transport.js"></script>-->
+<!--    <script src="js/jquery.fileupload.js"></script>-->
+<!--    <script src="js/jquery.fileupload-process.js"></script>-->
+<!--    <script src="js/jquery.fileupload-image.js"></script>-->
     <!-- The File Upload validation plugin -->
-    <script src="js/jquery.fileupload-validate.js"></script>
+<!--    <script src="js/jquery.fileupload-validate.js"></script>-->
     <!-- Main Upload JS -->
-    <script src="js/upload.js"></script>
+<!--    <script src="js/upload.js"></script>-->
 </head>
 
 <body>
+<?php
+$sql = "select * from user_details WHERE u_id=".$userid;
+$row = mysql_fetch_array(mysql_query($sql));
+?>
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="nav-wrapper">
     <div class="container-fluid">
@@ -56,7 +61,7 @@ include("connect.php");
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="navbar-header">
-                    <img alt="avatar" src="images/Akari.png" class="img-nav img-rounded">
+                    <img alt="avatar" src="<?php echo $avatar; ?>" class="img-nav img-rounded">
                 </div>
             </li>
             <li class="dropdown">
@@ -93,10 +98,6 @@ include("connect.php");
 </div>
 </nav>
 
-<?php
-$sql = "select * from user_details WHERE u_id=".$userid;
-$row = mysql_fetch_array(mysql_query($sql));
-?>
 <div class="panel panel-default panel-size">
     <div class="panel-heading">
         <ol class="breadcrumb breadcrumb-post">
@@ -144,28 +145,20 @@ $row = mysql_fetch_array(mysql_query($sql));
                 </div>
             </div>
         </form>
+        <form name='photoupload' id='photoupload' enctype="multipart/form-data" method='POST' action='photo_uploader.php'>
         <div class="col-sm-6">
             <label class="col-sm-2 control-label">头像</label>
             <div class="col-sm-6">
-                <img src="images/Akari.png" class="img-thumbnail" style="width: 100%; height: 100%;">
+                <img src="<?php echo $avatar; ?>" class="img-thumbnail" style="width: 100%; height: 100%;">
             </div>
             <div class="col-sm-offset-2 col-sm-3">
-                <span class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>上传头像</span>
-                    <!-- The file input field used as target for the file upload widget -->
-                    <input id="fileupload" type="file" name="files" accept="image/png, image/jpeg">
-                </span>
+                <input id="photo" type="file" name="photo" accept="image/png, image/jpeg">
             </div>
             <div class="col-sm-2">
-                <button type="submit" class="btn btn-default">保存更新</button>
+                <button id="uploadbutton" class="btn btn-default" style="display: none;">上传文件</button>
             </div>
-            </br>
-            <div id="progress" class="progress col-sm-offset-2">
-                <div class="progress-bar progress-bar-success"></div>
-            </div>
-            <div id="files" class="files"></div>
         </div>
+        </form>
     </div>
 </div>
 </body>
@@ -192,6 +185,13 @@ $row = mysql_fetch_array(mysql_query($sql));
     $('#info').change(function (){
         $('#updateinfo').css('display', 'block');
         hasContent = true;
-    })
+    });
+    $('#photo').change(function (){
+        $('#uploadbutton').css('display', 'block');
+        hasContent = true;
+    });
+    $('#uploadbutton').click(function (){
+       $('#photoupload').submit();
+    });
 </script>
 </html>

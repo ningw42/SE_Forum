@@ -32,6 +32,7 @@ $username = $_SESSION['username'];
 $u_id = $_SESSION['u_id'];
 $role = $_SESSION['role'];
 $status = $_SESSION['status'];
+$avatar = $_SESSION['avatar'];
 if(isset($_GET['b_id'])){
     $bid = $_GET['b_id'];
 }else{
@@ -51,7 +52,7 @@ require("connect.php");
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <div class="navbar-header">
-                        <img alt="avatar" src="images/Akari.png" class="img-nav img-rounded">
+                        <img alt="avatar" src="<?php echo $avatar; ?>" class="img-nav img-rounded">
                     </div>
                 </li>
                 <li class="dropdown">

@@ -76,6 +76,7 @@ if (!$_POST['username'] and !trim($attr)) {
         mysql_query("ROLLBACK");
         echo "failure";
     }
+    mysql_query("SET AUTOCOMMIT=1");
 }
 
 mysql_close();

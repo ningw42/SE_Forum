@@ -24,8 +24,17 @@ if(isset($_POST['login-submit'])){
         $_SESSION['username'] = $row['username'];
         $_SESSION['role'] = $row['role'];
         $_SESSION['status'] = $row['status'];
-        //echo $_SESSION['username'];
-        echo "<script>alert('登录成功!');location.href='index.php#';$</script>";
+        $result = mysql_query("select * from user_details WHERE u_id=".$row['u_id']);
+        $data = mysql_fetch_array($result);
+
+        echo $data['photo'];
+        if (!$data['photo']) {
+            $_SESSION['avatar'] = $DEFAULT_PHOTO;
+        } else {
+            $_SESSION['avatar'] = 'userAvatar/'.$data['photo'];
+        }
+
+        echo "<script>alert('登录成功!');location.href='index.php#';</script>";
     }
 }
 ?>
