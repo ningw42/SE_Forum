@@ -120,9 +120,12 @@ if($role != 0){
 
             include('connect.php');
 
-            $sql = "SELECT count(*) FROM `forum_board`;";
+            $sql = "SELECT count(*), max(b_id) FROM `forum_board`;";
             $query = mysql_query($sql);
-            $board_number = mysql_fetch_array($query)[0];
+            $row2 = mysql_fetch_array($query);
+            $board_number = $row2[0];
+            $b_id = $row2[1];
+//            print_r($row2);
 
             if(!isset($_GET['page'])){
                 $pagestart = 0;
@@ -136,8 +139,7 @@ if($role != 0){
 
                 <tr class="table-hover">
                     <td width="10%">
-                        <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_id'];
-                            $b_id = $row['b_id'] ?></a>
+                        <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_id']; //$b_id = $row['b_id'] ?></a>
                     </td>
                     <td width="15%">
                         <a href="posts.php?b_id=<?php echo $row['b_id'] ?>"><?php echo $row['b_name'] ?></a>
@@ -157,7 +159,7 @@ if($role != 0){
                 </tr>
             <?php
             }
-            if($b_id == $board_number){
+//            if($b_id == $board_number){
             ?>
 
             <script type="text/javascript">
@@ -203,7 +205,7 @@ if($role != 0){
             </tr>
             </form>
             <?php
-            }
+//            }
             ?>
             </tbody>
         </table>

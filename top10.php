@@ -156,7 +156,7 @@ $status = $_SESSION['status'];
 
                 $sql = "select p_id, board_id, author, post_time, reply_count, title, hits  from posts_topic where p_id = " . $ranked_p_id[$k];
                 $query = mysql_query($sql)
-                or die("Error!");
+                or die("好冷清啊，没有十大T.T");
                 $row = mysql_fetch_array($query);
 
                 $sql = "select b_name from forum_board where b_id = " . $row['board_id'];
@@ -197,9 +197,10 @@ $status = $_SESSION['status'];
 
             mysql_close();
             ?>
-            </ul>
+
             </tbody>
         </table>
+        </ul>
     </div>
 </div>
 <div class="text-center">
