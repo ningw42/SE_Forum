@@ -106,7 +106,7 @@ $row = mysql_fetch_array(mysql_query($sql));
     </div>
     <div class="panel-body" style="padding-bottom: 0px">
         <form class="form-horizontal col-sm-6" id="info" action="#">
-            <div class="form-group">
+            <div class="form-group" style="display: none;">
                 <label class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="username" placeholder="<?php echo $username ?>">
