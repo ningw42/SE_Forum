@@ -9,7 +9,7 @@ CREATE TABLE `user_simple` (
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 #user_details
 CREATE TABLE `user_details` (
@@ -32,7 +32,7 @@ CREATE TABLE `forum_board` (
   `posts_count` int(11) DEFAULT '0',
   PRIMARY KEY (`b_id`),
   UNIQUE KEY `b_name` (`b_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 #forum_message
 CREATE TABLE `forum_message` (
@@ -47,7 +47,7 @@ CREATE TABLE `forum_message` (
   KEY `receiver_id` (`receiver_id`),
   CONSTRAINT `forum_message_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `user_simple` (`u_id`),
   CONSTRAINT `forum_message_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `user_simple` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 #post_topic
 CREATE TABLE `posts_topic` (
@@ -65,7 +65,7 @@ CREATE TABLE `posts_topic` (
   KEY `board_id` (`board_id`),
   CONSTRAINT `posts_topic_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user_simple` (`u_id`),
   CONSTRAINT `posts_topic_ibfk_2` FOREIGN KEY (`board_id`) REFERENCES `forum_board` (`b_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 #post_content
 CREATE TABLE `posts_content` (
@@ -89,7 +89,7 @@ CREATE TABLE `posts_reply` (
   KEY `p_id` (`p_id`),
   CONSTRAINT `posts_reply_ibfk_2` FOREIGN KEY (`replier_id`) REFERENCES `user_simple` (`u_id`),
   CONSTRAINT `posts_reply_ibfk_3` FOREIGN KEY (`p_id`) REFERENCES `posts_topic` (`p_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TRIGGER `reply_increament` AFTER INSERT ON `posts_reply` FOR EACH ROW UPDATE posts_topic SET reply_count=reply_count+1 WHERE p_id=NEW.p_id;
