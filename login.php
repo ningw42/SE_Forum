@@ -9,7 +9,7 @@ require ('connect.php');
 session_start();
 if(isset($_POST['login-submit'])){
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
 
     $sql = "select * from user_simple where username = '$username' and passwd = '$password'";
     $query = mysql_query($sql);
