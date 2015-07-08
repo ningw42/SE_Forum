@@ -186,7 +186,7 @@ require("connect.php");
                 ?>
                 <tr class = "table-hover">
                     <td width="30%">
-                        <a href = "addhit.php?id=<?php echo $row['p_id'] ?>"><?php echo $row['title']?></a>
+                        <a href = "detail.php?id=<?php echo $row['p_id'] ?>"><?php echo $row['title']?></a>
                     </td>
                     <td width="10%">
                         <a href = "posts.php?b_id=<?php echo $row['board_id'] ?>"><?php echo $b_name?></a>

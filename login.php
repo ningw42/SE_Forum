@@ -27,7 +27,7 @@ if(isset($_POST['login-submit'])){
         $result = mysql_query("select * from user_details WHERE u_id=".$row['u_id']);
         $data = mysql_fetch_array($result);
 
-        echo $data['photo'];
+//        echo $data['photo'];
         if (!$data['photo']) {
             $_SESSION['avatar'] = $DEFAULT_PHOTO;
         } else {
