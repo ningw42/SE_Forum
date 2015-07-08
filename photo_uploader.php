@@ -21,12 +21,12 @@ if(isset($_FILES['photo'])){
             </script>
 
             <?php
-            if(isset($_POST['submit'])){
-                header('Location:post.php?b_id=$bid');
-            }
-            else{
-                header('Location:announcement.php?b_id=$bid');
-            }
+//            if(isset($_POST['submit'])){
+//                header('Location:post.php?b_id=$bid');
+//            }
+//            else{
+//                header('Location:announcement.php?b_id=$bid');
+//            }
         }
         else
         {
@@ -39,10 +39,12 @@ if(isset($_FILES['photo'])){
                 move_uploaded_file($_FILES["photo"]["tmp_name"], "userAvatar/".$newfile);
             }
             $result = mysql_query('UPDATE user_details SET photo=\''.$newfile.'\' WHERE u_id = '.$userid);
-//            echo 'UPDATE user_details SET photo=\''.$md5.'\' WHERE u_id = '.$userid;
+            $_SESSION['avatar'] = 'userAvatar/'.$newfile;
         }
+        header('Location:editinfo.php');
     }
     else{
         echo "<script>alert('图片大小超过限制')</script>";
+        header('Location:editinfo.php');
     }
 }
