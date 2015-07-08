@@ -92,7 +92,7 @@ CREATE TABLE `posts_reply` (
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 
-
+CREATE TRIGGER `reply_increament` AFTER INSERT ON `posts_reply` FOR EACH ROW UPDATE posts_topic SET reply_count=reply_count+1 WHERE p_id=NEW.p_id;
 
 
 
