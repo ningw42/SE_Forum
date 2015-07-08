@@ -238,7 +238,7 @@
         // TO-DO empty content
         $.get('replymessage.php', {receiver_id : id, sender_id : login_id, mesg_content: content}, function (response) {
             if (response == "success") {
-                alert("fuck")
+//                alert("fuck")
             }
         })
     })

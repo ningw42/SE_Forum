@@ -42,6 +42,7 @@
 <body>
 <?php
 // post title
+mysql_query("UPDATE posts_topic SET hits=hits+1 WHERE p_id=".$postid);
 $sql = "select * from posts_topic WHERE p_id=".$postid;
 $result = mysql_query($sql);
 $row = mysql_fetch_array($result);
