@@ -100,7 +100,7 @@ $status = $_SESSION['status'];
             <li class="active">所在板块:<a href = "posts.php?b_id=<?php echo $bid?>"><?php echo $b_name?></a></li>
             <!-- 判断是否有权限发布公告-->
             <?php
-            if(($role==0||$role==2)&&!$status){
+            if(($role==0||$role==2)){
                 $post = true;
             }
             else{
@@ -108,7 +108,7 @@ $status = $_SESSION['status'];
             }
             if($post){
             ?>
-                <li><a class = "btn btn-success" href = "announce.php?b_id=<?php echo $bid ?>">发布公告</a></li>
+                <li><a class = "btn btn-success" href = "announce.php?b_id=<?php echo $bid ?>" onclick="return checkPost()">发布公告</a></li>
             <?php
             }
             ?>
@@ -211,6 +211,13 @@ $status = $_SESSION['status'];
 //            $('#page-content').text('Page ' + page);
 //        }
     });
+    function checkPost(){
+        if(<?php echo $status?>) {
+            alert("摊上事了，被禁言了，快联系管理员吧亲！");
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 </html>

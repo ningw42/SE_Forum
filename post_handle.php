@@ -5,11 +5,12 @@ $bid = $_GET['b_id'];
 session_start();
 if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
     $maxSize = 5*1024*1024;   //5M大小
-    if(isset($_FILES['uploadfile'])){
-        $attachment = time();      //以当前时间戳作为文件标识符
+    if(!empty($_FILES['uploadfile']['tmp_name'])){
+//        $attachment = time();      //以当前时间戳作为文件标识符
         if($_FILES["uploadfile"]["size"]<=$maxSize){
             if ($_FILES["uploadfile"]["error"] > 0)
             {
+//                $attachment = -2;
                 ?>
                 <script>
                     alert("上传文件出现错误！");
@@ -18,10 +19,12 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
                 <?php
                 //echo "Error: " . $_FILES["uploadfile"]["error"] . "<br />";
                 if(isset($_POST['submit'])){
-                    header('Location:post.php?b_id=$bid');
+                    header('Location:post.php?b_id='.$bid);
+                    exit;
                 }
                 else{
-                    header('Location:announcement.php?b_id=$bid');
+                    header('Location:announcement.php?b_id='.$bid);
+                    exit;
                 }
             }
             else
@@ -31,7 +34,7 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
 //                echo "Type: " . $_FILES["uploadfile"]["type"] . "<br />";
 //                echo "Size: " . ($_FILES["uploadfile"]["size"] / 1024) . " Kb<br />";
 //                echo "Stored in: " . $_FILES["uploadfile"]["tmp_name"];
-
+                $attachment = time();      //以当前时间戳作为文件标识符
                 $attachment = $attachment . "_" . $_FILES['uploadfile']['name'];
                 if (file_exists("upload/" . $attachment)) {
                     echo "<script>alert('$attachment already exist')</script>";
@@ -47,10 +50,18 @@ if(isset($_POST['submit'])||isset($_POST['submit_announcement'])){
         }
         else{
             echo "<script>alert('附件大小超过限制')</script>";
+            if(isset($_POST['submit'])){
+                header('Location:post.php?b_id='.$bid);
+                exit;
+            }
+            else{
+                header('Location:announcement.php?b_id='.$bid);
+                exit;
+            }
         }
     }
     else{
-        $attachment = -1;
+        $attachment = NULL;
     }
 
 

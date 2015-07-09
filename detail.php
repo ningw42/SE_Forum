@@ -139,7 +139,7 @@ if (!$topic_owner_Avatar) {
                                 $attachment = $row['attachment'];
                                 $postcontent = $row['content'];
                                 echo $postcontent . "</br></br>";
-                                if($attachment != "-1"){
+                                if($attachment != NULL){
                                 ?>
                                     <a href="download.php?filename=<?php echo $attachment; ?>">附件下载: <?php echo explode('_', $attachment)[1]; ?>
                                 <?php

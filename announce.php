@@ -41,6 +41,7 @@
 
 <body>
 <?php
+require("connect.php");
 require('checkvalid.php');
 // session_start();
 $username = $_SESSION['username'];
@@ -105,7 +106,7 @@ $bid = $_GET['b_id'];
 
             if(isset($_GET['b_id']))
                 $bid = $_GET['b_id'];
-            require("connect.php");
+
             $sql = "select b_name from forum_board where b_id = $bid";
             $query = mysql_query($sql)
             or die("Error!");
@@ -119,7 +120,7 @@ $bid = $_GET['b_id'];
         </ol>
     </div>
     <div class="panel-body">
-        <form name="post" action="post_handle.php?b_id=<?php echo $bid ?>" method="POST" onsubmit="return checkSubmit()">
+        <form name="post" enctype="multipart/form-data" action="post_handle.php?b_id=<?php echo $bid ?>" method="POST" onsubmit="return checkSubmit()">
             <div class="input-group">
                 <span class="input-group-addon" >主题</span>
                 <input type="text" class="form-control" placeholder="120个字符以内" name="title">
@@ -128,7 +129,7 @@ $bid = $_GET['b_id'];
                 </span>
             </div>
             <textarea class="form-control input-textarea" rows="10" placeholder="公告内容" name = "content"></textarea>
-
+            <input type="file" name="uploadfile" id="uploadfile">
         </form>
     </div>
 </div>
