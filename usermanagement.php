@@ -32,7 +32,7 @@
  * Date: 2015/6/16
  * Time: 12:01
  */
-
+include('connect.php');
 require('checkvalid.php');
 
 $username = $_SESSION['username'];
@@ -125,7 +125,7 @@ if($role != 0){
             </thead>
             <tbody>
             <?php
-            include('connect.php');
+
 
             $sql = "SELECT count(*) FROM `user_simple`;";
             $query = mysql_query($sql);

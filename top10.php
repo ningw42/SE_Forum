@@ -33,6 +33,7 @@
  * Time: 20:46
  */
 
+require("connect.php");
 require('checkvalid.php');
 
 $username = $_SESSION['username'];
@@ -112,7 +113,6 @@ $status = $_SESSION['status'];
             </thead>
             <tbody>
             <?php
-            require("connect.php");
 
             $sql = "select p_id, hits, reply_count, post_time from posts_topic where is_announcement = 0 and week(now()) - week(post_time) <= 1";
             $query = mysql_query($sql)

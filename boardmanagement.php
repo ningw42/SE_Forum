@@ -25,6 +25,7 @@
 
 <body>
 <?php
+include('connect.php');
 require('checkvalid.php');
 $username = $_SESSION['username'];
 $u_id = $_SESSION['u_id'];
@@ -117,8 +118,6 @@ if($role != 0){
              * Date: 2015/6/10
              * Time: 20:02
              */
-
-            include('connect.php');
 
             $sql = "SELECT count(*) FROM `forum_board`;";
             $query = mysql_query($sql);

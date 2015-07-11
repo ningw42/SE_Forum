@@ -211,37 +211,37 @@
                 confirmModal.modal('hide');
             }, 100);
         })
-    };
+    }
     var replyModal = $('#replyModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('sender') // Extract info from data-* attributes
-        var recipientID = button.data('sender_id') // Extract info from data-* attributes
-        var loginUser = button.data('loginuserid') // Extract info from data-* attributes
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipient = button.data('sender'); // Extract info from data-* attributes
+        var recipientID = button.data('sender_id');// Extract info from data-* attributes
+        var loginUser = button.data('loginuserid'); // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-        modal.find('.modal-title').text('发送给' + recipient)
-        modal.find('.btn-success').attr({'userid' : recipientID})
+        modal.find('.modal-title').text('发送给' + recipient);
+        modal.find('.btn-success').attr({'userid' : recipientID});
         modal.find('.btn-success').attr({'loginid' : loginUser})
-    })
+    });
     var confirmModal = $('#confirmModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var mid = button.data('m_id') // Extract info from data-* attributes
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var mid = button.data('m_id'); // Extract info from data-* attributes
         var modal = $(this)
         modal.find('.btn-danger').attr({'m_id' : mid})
-    })
+    });
     $('#sendbutton').on('click', function () {
 //        console.log(this)
-        var id = $(this).attr('userid')
-        var login_id = $(this).attr('loginid')
-        var content = $("#mesgarea").val()
+        var id = $(this).attr('userid');
+        var login_id = $(this).attr('loginid');
+        var content = $("#mesgarea").val();
         // TO-DO empty content
         $.get('replymessage.php', {receiver_id : id, sender_id : login_id, mesg_content: content}, function (response) {
             if (response == "success") {
 //                alert("fuck")
             }
         })
-    })
+    });
     $(function(){
         $('#resultModal').on('shown.bs.modal', function(){
             var resultModal = $(this);
