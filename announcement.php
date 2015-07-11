@@ -37,16 +37,20 @@ $status = $_SESSION['status'];
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
         <div class="container-fluid">
+            <ul class="nav navbar-nav ">
+                <li class="divider-vertical"></li>
+                <li><a href="index.php"><b>论坛首页</b></a></li>
+            </ul>
             <form class="navbar-form navbar-left" role="search" method="post" action="posts.php?b_id=<?php echo $bid ?>">
                 <div class="form-group">
-                    <input type="text" name="keyword" class="form-control" placeholder="帖子或作者">
+                    <input type="text" name="keyword" class="form-control" placeholder="帖子主题">
                 </div>
                 <button type="submit" class="btn btn-default" name="search">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <div class="navbar-header">
-                        <img alt="avatar" src="images/Akari.png" class="img-nav img-rounded">
+                        <img alt="avatar" src="<?php echo $_SESSION['avatar']; ?>" class="img-nav img-rounded">
                     </div>
                 </li>
                 <li class="dropdown">
@@ -55,7 +59,7 @@ $status = $_SESSION['status'];
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="editinfo.php">编辑信息</a></li>
-                        <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
+                        <li><a href="message.php">短消息</a></li>
                         <?php if($_SESSION['role'] == 0){ ?>
                             <li><a href="usermanagement.php">用户管理</a></li>
                             <li><a href="boardmanagement.php">版块管理</a></li>
@@ -100,7 +104,7 @@ $status = $_SESSION['status'];
             <li class="active">所在板块:<a href = "posts.php?b_id=<?php echo $bid?>"><?php echo $b_name?></a></li>
             <!-- 判断是否有权限发布公告-->
             <?php
-            if(($role==0||$role==2)&&!$status){
+            if(($role==0||$role==2)){
                 $post = true;
             }
             else{
@@ -108,7 +112,7 @@ $status = $_SESSION['status'];
             }
             if($post){
             ?>
-                <li><a class = "btn btn-success" href = "announce.php?b_id=<?php echo $bid ?>">发布公告</a></li>
+                <li><a class = "btn btn-success" href = "announce.php?b_id=<?php echo $bid ?>" onclick="return checkPost()">发布公告</a></li>
             <?php
             }
             ?>
@@ -211,6 +215,13 @@ $status = $_SESSION['status'];
 //            $('#page-content').text('Page ' + page);
 //        }
     });
+    function checkPost(){
+        if(<?php echo $status?>) {
+            alert("摊上事了，被禁言了，快联系管理员吧亲！");
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 </html>

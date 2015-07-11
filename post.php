@@ -54,16 +54,20 @@ $bid = $_GET['b_id'];
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
         <div class="container-fluid">
+            <ul class="nav navbar-nav ">
+                <li class="divider-vertical"></li>
+                <li><a href="index.php"><b>论坛首页</b></a></li>
+            </ul>
             <form class="navbar-form navbar-left" role="search" method="post" action="posts.php">
                 <div class="form-group">
-                    <input type="text" name="keyword" class="form-control" placeholder="帖子或作者">
+                    <input type="text" name="keyword" class="form-control" placeholder="帖子主题">
                 </div>
                 <button type="submit" class="btn btn-default" name="search">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <div class="navbar-header">
-                        <img alt="avatar" src="images/Akari.png" class="img-nav img-rounded">
+                        <img alt="avatar" src="<?php echo $_SESSION['avatar']; ?>" class="img-nav img-rounded">
                     </div>
                 </li>
                 <li class="dropdown">
@@ -72,7 +76,7 @@ $bid = $_GET['b_id'];
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="editinfo.php">编辑信息</a></li>
-                        <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
+                        <li><a href="message.php">短消息</a></li>
                         <?php if($_SESSION['role'] == 0){ ?>
                             <li><a href="usermanagement.php">用户管理</a></li>
                             <li><a href="boardmanagement.php">版块管理</a></li>
