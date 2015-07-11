@@ -43,9 +43,13 @@ require("connect.php");
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="nav-wrapper">
         <div class="container-fluid">
+            <ul class="nav navbar-nav ">
+                <li class="divider-vertical"></li>
+                <li><a href="index.php"><b>论坛首页</b></a></li>
+            </ul>
             <form class="navbar-form navbar-left" role="search" method="post" action="posts.php?b_id=<?php echo $bid ?>">
                 <div class="form-group">
-                    <input type="text" name="keyword" class="form-control" placeholder="帖子或作者">
+                    <input type="text" name="keyword" class="form-control" placeholder="帖子主题">
                 </div>
                 <button type="submit" class="btn btn-default" name="search">搜索</button>
             </form>
@@ -61,7 +65,7 @@ require("connect.php");
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="editinfo.php">编辑信息</a></li>
-                        <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
+                        <li><a href="message.php">短消息</a></li>
                         <?php if($_SESSION['role'] == 0){ ?>
                             <li><a href="usermanagement.php">用户管理</a></li>
                             <li><a href="boardmanagement.php">版块管理</a></li>
@@ -105,7 +109,7 @@ require("connect.php");
             if($bid != 0) {
                 $sql = "select b_name from forum_board where b_id = $bid";
                 $query = mysql_query($sql)
-                or die("Error1!");
+                or die("好冷清啊，没有帖子T.T");
 //                echo "2" . $sql;
                 $row = mysql_fetch_array($query);   //num of posts
                 $b_name = $row[0];
@@ -126,7 +130,7 @@ require("connect.php");
                 <th>版块名</th>
                 <th>作者</th>
                 <th>发帖时间</th>
-                <th>关注人数</th>
+                <th>关注</th>
                 <th>点击/回复</th>
             </tr>
             </thead>

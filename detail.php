@@ -46,6 +46,7 @@ mysql_query("UPDATE posts_topic SET hits=hits+1 WHERE p_id=".$postid);
 $sql = "select * from posts_topic WHERE p_id=".$postid;
 $result = mysql_query($sql);
 $row = mysql_fetch_array($result);
+$isannouncement = $row['is_announcement'];
 $topic_owner_id = $row['author_id'];
 $topic_owner_Avatar = mysql_fetch_array(mysql_query("select photo from user_details WHERE u_id=".$topic_owner_id))['photo'];
 if (!$topic_owner_Avatar) {
@@ -57,9 +58,13 @@ if (!$topic_owner_Avatar) {
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="nav-wrapper">
     <div class="container-fluid">
+        <ul class="nav navbar-nav ">
+            <li class="divider-vertical"></li>
+            <li><a href="index.php"><b>论坛首页</b></a></li>
+        </ul>
         <form class="navbar-form navbar-left" role="search" method="post" action="posts.php?b_id=<?php echo $row['board_id'] ?>">
             <div class="form-group">
-                <input type="text" name="keyword" class="form-control" placeholder="帖子或作者">
+                <input type="text" name="keyword" class="form-control" placeholder="帖子主题">
             </div>
             <button type="submit" class="btn btn-default" name="search">搜索</button>
         </form>
@@ -75,7 +80,7 @@ if (!$topic_owner_Avatar) {
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="editinfo.php">编辑信息</a></li>
-                    <li><a href="message.php">短消息 <span class="badge">42</span></a></li>
+                    <li><a href="message.php">短消息</a></li>
                     <?php if($_SESSION['role'] == 0){ ?>
                         <li><a href="usermanagement.php">用户管理</a></li>
                         <li><a href="boardmanagement.php">版块管理</a></li>
@@ -191,6 +196,7 @@ if (!$topic_owner_Avatar) {
     <ul class="pagination">
     </ul>
 </div>
+<?php if(!$isannouncement){ ?>
 <div class="panel panel-default" style="width: 80%; margin: 0px auto">
     <div class="panel-heading">
         <ol class="breadcrumb breadcrumb-post">
@@ -207,6 +213,7 @@ if (!$topic_owner_Avatar) {
         </form>
     </div>
 </div>
+<?php } ?>
 </body>
 <?php
 $sql = "select count(*) from posts_reply WHERE p_id=".$postid." order by r_id";
