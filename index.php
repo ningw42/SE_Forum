@@ -109,7 +109,7 @@
                         <div class="caption">
                             <h3><?php echo $row['b_name'] ?></h3>
                             <p><?php echo $row['description'] ?></p>
-                            <p><?php echo $row['posts_count'] ?></p>
+                            <p>帖子数: <?php echo $row['posts_count'] ?></p>
                             <p>
                                 <a href="posts.php?b_id=<?php echo $row['b_id'] ?>" class="btn btn-primary" role="button">进入</a>
                             </p>
@@ -123,4 +123,8 @@
     </div>
 </div>
 </body>
+<footer>
+    <br />
+    <h3 align="center">友情链接: <a href="http://10.12.218.56/sibylla/wangmeng/test/">教务系统首页</a></h3>
+</footer>
 </html>

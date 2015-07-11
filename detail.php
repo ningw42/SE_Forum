@@ -157,16 +157,18 @@ if (!$topic_owner_Avatar) {
                 <?php }
                 $sql = "select * from posts_reply WHERE p_id=".$postid." order by reply_time LIMIT ".$pageby10.", 10";
                 $result = mysql_query($sql);
-                // echo $sql;
+//                 echo $sql;
                 while ($row = mysql_fetch_array($result) and $post_count++ < 10) {
                     $tempUserId = $row['replier_id'];
                     $tempAvatar = mysql_fetch_array(mysql_query("select photo from user_details WHERE u_id=".$tempUserId))['photo'];
 
+//                    echo "select photo from user_details WHERE u_id=".$tempUserId;
                     if (!$tempAvatar) {
                         $tempAvatar = $DEFAULT_PHOTO;
                     } else {
                         $tempAvatar = 'userAvatar/'.$tempAvatar;
                     }
+//                    echo $tempAvatar;
                 ?>
                 <tr class="table-hover">
                     <td width="15%" align="center">
