@@ -151,7 +151,7 @@ $status = $_SESSION['status'];
             }
             arsort($post_rank);
             $ranked_p_id = array_keys($post_rank);
-//            print_r($post_rank);
+            print_r($post_rank);
             $k = 0;
 
             while($k < 10) {
