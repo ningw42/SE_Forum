@@ -122,6 +122,9 @@ $status = $_SESSION['status'];
             or die("Error!");
             $post_rank = array();
 
+            date_default_timezone_set('Asia/Shanghai');
+            $local_time = time();
+
             while($row = mysql_fetch_array($query, MYSQL_BOTH)) {
                 //fetch all the posts within two weeks
 
@@ -133,7 +136,10 @@ $status = $_SESSION['status'];
                 $hits = $row['hits'];
                 $replies = $row['reply_count'];
                 $post_time = $row['post_time'];
-                $last_time = (time() - strtotime($post_time))/86400;
+//                echo strtotime($post_time) . "<br />";
+
+//                echo $local_time . "<br />";
+                $last_time = ($local_time - strtotime($post_time))/86400;
 
                 if($replies == 0){
                     $replies = 1;
@@ -145,13 +151,13 @@ $status = $_SESSION['status'];
                     $follower_count = 1;
                 }
                 $post_rank[$row['p_id']] = $follower_count*(0.7*$replies)*(0.3*$hits)/$last_time;
-//                echo time();
+//                echo $last_time;
 //                echo strtotime($post_time);
 //                echo $last_time;
             }
             arsort($post_rank);
             $ranked_p_id = array_keys($post_rank);
-            print_r($post_rank);
+//            print_r($post_rank);
             $k = 0;
 
             while($k < 10) {
