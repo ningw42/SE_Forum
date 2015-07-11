@@ -125,7 +125,6 @@ if($role != 0){
 
 
             $sql = "SELECT count(*) FROM `forum_board`;";
-            include('connect.php');
 
             $sql = "SELECT count(*), max(b_id) FROM `forum_board`;";
             $query = mysql_query($sql);
