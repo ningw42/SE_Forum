@@ -123,13 +123,11 @@ if($role != 0){
              * Time: 20:02
              */
 
-<<<<<<< HEAD
+
             $sql = "SELECT count(*) FROM `forum_board`;";
-=======
             include('connect.php');
 
             $sql = "SELECT count(*), max(b_id) FROM `forum_board`;";
->>>>>>> origin/master
             $query = mysql_query($sql);
             $row2 = mysql_fetch_array($query);
             $board_number = $row2[0];
